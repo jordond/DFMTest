@@ -1,0 +1,2 @@
+include ':app', ':common', ':assets'
+rootProject.name='DFM Test'
