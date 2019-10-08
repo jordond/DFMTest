@@ -1,5 +1,5 @@
 package com.worldturtlemedia.dfmtest
 
-import android.app.Application
+import com.google.android.play.core.splitcompat.SplitCompatApplication
 
-class DFMTestApp : Application()
+class DFMTestApp : SplitCompatApplication()

@@ -1,20 +1,18 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion versions.compileSdk
+
     defaultConfig {
-        applicationId "com.worldturtlemedia.dfmtest"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId app.id
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode app.code
+        versionName app.name
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,21 +20,21 @@ android {
         }
     }
 
-
     dynamicFeatures = [":assets"]
-
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":common")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    /* DFM */
+    implementation "com.google.android.play:core:${versions.playcore}"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:${versions.nav}"
+    implementation "androidx.navigation:navigation-ui-ktx:${versions.nav}"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

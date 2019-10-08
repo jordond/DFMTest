@@ -4,11 +4,13 @@
 
     <dist:module
         dist:instant="false"
-        dist:title="@string/title_assets">
+        dist:title="@string/module_assets">
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>
         <dist:fusing dist:include="false" />
     </dist:module>
+
+    <application android:hasCode="false" />
 </manifest>
 
