@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="audio_be_chillin">Be Chillin!</string>
+    <string name="audio_behind_enemy_lines">Behind Enemy Lines</string>
+    <string name="audio_big_eyes">Big Eyes</string>
+    <string name="audio_city_sunshine">City Sunshine</string>
+    <string name="audio_cornfield_chase">Cornfield Chase</string>
+    <string name="audio_epic_boss_battle">Epic Boss Battle</string>
+    <string name="audio_funshine">Funshine?</string>
+    <string name="audio_happy_whistling_ukulele">Happy Whistling Ukulele</string>
+    <string name="audio_inspiration">Inspiration</string>
+    <string name="audio_motions">Motions</string>
+    <string name="audio_pickled_pink">Pickled Pink</string>
+    <string name="audio_stereotype_news">Stereotype News</string>
+    <string name="audio_ukulele_song">Ukulele Song!</string>
+</resources>

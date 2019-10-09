@@ -1,11 +1,12 @@
+@Suppress("MemberVisibilityCanBePrivate")
 object Modules {
 
     const val app = ":app"
     const val common = ":common"
-    const val assets = ":assets"
-    const val images = ":images"
+    const val audio = ":audio"
+    const val audioBase = ":audio_base"
 
-    val dynamic = listOf<String>()
+    val dynamic = listOf(audio)
 
-    val all = arrayOf(app, common, assets, images)
+    val all = arrayOf(app, common, audio, audioBase)
 }

@@ -18,8 +18,7 @@ object Libs {
     const val groupie = "com.xwray:groupie:${Versions.groupie}"
     const val groupieAndroidExtensions = "com.xwray:groupie-kotlin-android-extensions:${Versions.groupie}"
 
-    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
+    const val timberkt = "com.github.ajalt:timberkt:${Versions.timberkt}"
 }
 
 object BuildPlugins {

@@ -35,11 +35,12 @@ android {
         jvmTarget = App.javaVersion.toString()
     }
 
-    dynamicFeatures = [":assets", ":images"]
+    dynamicFeatures = Modules.dynamic
 }
 
 dependencies {
     implementation(project(Modules.common))
+    implementation(project(Modules.audioBase))
 
     implementation(Libs.kotlin)
     implementation(Libs.coroutinesCore)
@@ -57,4 +58,6 @@ dependencies {
     implementation(Libs.lifecycleLiveData)
     implementation(Libs.lifecycleViewModel)
     implementation(Libs.material)
+
+    implementation(Libs.timberkt)
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="module_assets">DFM Assets</string>
-    <string name="module_images">DFM Images</string>
+    <string name="module_audio">DFM Audio</string>
 </resources>

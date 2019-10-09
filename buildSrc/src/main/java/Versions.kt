@@ -14,5 +14,6 @@ object Versions {
     const val material = "1.1.0-beta01"
 
     const val groupie = "2.6.0"
-    const val glide = "4.9.0"
+
+    const val timberkt = "1.5.1"
 }

@@ -40,4 +40,6 @@ dependencies {
     implementation(Libs.lifecycleExtensions)
     implementation(Libs.lifecycleLiveData)
     implementation(Libs.lifecycleViewModel)
+
+    implementation(Libs.timberkt)
 }
