@@ -26,6 +26,15 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = App.javaVersion
+        targetCompatibility = App.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = App.javaVersion.toString()
+    }
+
     dynamicFeatures = [":assets", ":images"]
 }
 
@@ -45,5 +54,7 @@ dependencies {
     implementation(Libs.coreKtx)
     implementation(Libs.constraintlayout)
     implementation(Libs.lifecycleExtensions)
+    implementation(Libs.lifecycleLiveData)
     implementation(Libs.lifecycleViewModel)
+    implementation(Libs.material)
 }

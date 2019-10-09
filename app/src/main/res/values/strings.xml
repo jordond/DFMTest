@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DFM Test</string>
+    <string name="now_playing">Currently playing: %1$s</string>
 </resources>

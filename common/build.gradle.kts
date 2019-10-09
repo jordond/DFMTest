@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+
 plugins {
     id(BuildPlugins.library)
     id(BuildPlugins.kotlinAndroid)
@@ -11,21 +13,31 @@ android {
         minSdkVersion(App.minSdk)
         targetSdkVersion(App.targetSdk)
     }
+
+    compileOptions {
+        sourceCompatibility = App.javaVersion
+        targetCompatibility = App.javaVersion
+    }
+
+    kotlinOptions {
+        (this as? KotlinJvmOptions)?.jvmTarget = App.javaVersion.toString()
+    }
 }
 
 dependencies {
-    api(Libs.kotlin)
-    api(Libs.coroutinesCore)
-    api(Libs.coroutinesAndroid)
+    implementation(Libs.kotlin)
+    implementation(Libs.coroutinesCore)
+    implementation(Libs.coroutinesAndroid)
 
     /* DFM */
-    api(Libs.playCore)
+    implementation(Libs.playCore)
 
-    api(Libs.navigationFragment)
-    api(Libs.navigationUi)
-    api(Libs.appcompat)
-    api(Libs.coreKtx)
-    api(Libs.constraintlayout)
-    api(Libs.lifecycleExtensions)
-    api(Libs.lifecycleViewModel)
+    implementation(Libs.navigationFragment)
+    implementation(Libs.navigationUi)
+    implementation(Libs.appcompat)
+    implementation(Libs.coreKtx)
+    implementation(Libs.constraintlayout)
+    implementation(Libs.lifecycleExtensions)
+    implementation(Libs.lifecycleLiveData)
+    implementation(Libs.lifecycleViewModel)
 }
