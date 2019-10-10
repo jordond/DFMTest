@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 plugins {
@@ -12,6 +13,11 @@ android {
     defaultConfig {
         minSdkVersion(App.minSdk)
         targetSdkVersion(App.targetSdk)
+
+        versionCode = App.code
+        versionName = App.name
+
+        buildConfigField("FEATURE_MODULE_NAMES", Modules.dynamic.toSet())
     }
 
     compileOptions {
@@ -41,5 +47,14 @@ dependencies {
     implementation(Libs.lifecycleLiveData)
     implementation(Libs.lifecycleViewModel)
 
+    implementation(Libs.groupie)
+    implementation(Libs.groupieAndroidExtensions)
+
     implementation(Libs.timberkt)
+}
+
+fun DefaultConfig.buildConfigField(name: String, value: Set<String>) {
+    // Generates String that holds Java String Array code
+    val strValue = value.joinToString(prefix = "{", separator = ",", postfix = "}", transform = { "\"$it\"" })
+    buildConfigField("String[]", name, strValue)
 }

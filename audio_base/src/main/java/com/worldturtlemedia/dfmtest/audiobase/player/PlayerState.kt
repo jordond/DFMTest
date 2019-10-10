@@ -11,7 +11,10 @@ sealed class PlayerState {
 
 sealed class PlayerError {
     object FileNotFound : PlayerError()
-    object Unknown : PlayerError()
+    data class StartFailed(val error: Throwable) : PlayerError()
+    data class StopFailed(val error: Throwable) : PlayerError()
+    data class DestroyFailed(val error: Throwable) : PlayerError()
+    data class Unknown(val error: Throwable) : PlayerError()
 }
 
 val PlayerState.canPlay: Boolean

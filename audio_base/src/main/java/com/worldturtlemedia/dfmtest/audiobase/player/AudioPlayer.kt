@@ -1,7 +1,10 @@
 package com.worldturtlemedia.dfmtest.audiobase.player
 
+import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.net.Uri
+import androidx.annotation.RawRes
 import com.github.ajalt.timberkt.e
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -38,16 +41,17 @@ class AudioPlayer {
         block(state)
     }
 
-    suspend fun playFile(filename: String): Boolean {
-        return prepareMediaPlayer(filename) && start()
+    suspend fun playFile(context: Context, fileUri: Uri): Boolean {
+        return prepareMediaPlayer(context, fileUri) && start()
     }
 
-    fun start(): Boolean = try {
+    private fun start(): Boolean = try {
         mediaPlayer.start()
         state = PlayerState.Playing
         true
     } catch (error: Throwable) {
         e(error) { "Unable to Start the MediaPlayer!" }
+        state = PlayerState.Error(PlayerError.StartFailed(error))
         false
     }
 
@@ -58,26 +62,26 @@ class AudioPlayer {
         true
     } catch (error: Throwable) {
         e(error) { "Unable to Stop the MediaPlayer!" }
+        state = PlayerState.Error(PlayerError.StopFailed(error))
         false
     }
 
     fun destroy() {
-        try {
+        state = try {
             mediaPlayer.stop()
             mediaPlayer.release()
-            state = PlayerState.Released
+            PlayerState.Released
         } catch (error: Throwable) {
             e(error) { "Unable to release the MediaPlayer" }
+            PlayerState.Error(PlayerError.DestroyFailed(error))
         }
     }
 
-    private suspend fun prepareMediaPlayer(filename: String): Boolean {
-        // TODO: Check if file exists
-
+    private suspend fun prepareMediaPlayer(context: Context, fileUri: Uri): Boolean {
         return suspendCancellableCoroutine { continuation ->
             try {
-                with (mediaPlayer) {
-                    setDataSource(filename)
+                with(mediaPlayer) {
+                    setDataSource(context.applicationContext, fileUri)
                     setOnPreparedListener {
                         state = PlayerState.Idle
                         continuation.resume(true)
@@ -85,9 +89,8 @@ class AudioPlayer {
                     prepareAsync()
                 }
             } catch (error: Throwable) {
-                e(error) { "Unable to prepare media player with $filename" }
-                state =
-                    PlayerState.Error(PlayerError.Unknown)
+                e(error) { "Unable to prepare media player with $fileUri" }
+                state = PlayerState.Error(PlayerError.Unknown(error))
                 continuation.resume(false)
             }
         }

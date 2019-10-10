@@ -1,8 +1,9 @@
-package com.worldturtlemedia.dfmtest.ui.audio
+package com.worldturtlemedia.dfmtest.ui.audioplayer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 
 class AudioPlayerViewModel : ViewModel() {
 

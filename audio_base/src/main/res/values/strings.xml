@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="audio_none">None</string>
     <string name="audio_be_chillin">Be Chillin!</string>
     <string name="audio_behind_enemy_lines">Behind Enemy Lines</string>
     <string name="audio_big_eyes">Big Eyes</string>

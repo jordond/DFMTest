@@ -12,6 +12,9 @@ android {
     defaultConfig {
         minSdkVersion(App.minSdk)
         targetSdkVersion(App.targetSdk)
+
+        versionCode = App.code
+        versionName = App.name
     }
 
     compileOptions {
@@ -25,6 +28,8 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.common))
+
     implementation(Libs.kotlin)
     implementation(Libs.coroutinesCore)
     implementation(Libs.coroutinesAndroid)
