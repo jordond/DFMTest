@@ -1,5 +1,7 @@
 package com.worldturtlemedia.dfmtest.audio
 
+import com.worldturtlemedia.dfmtest.R as RApp
+import com.worldturtlemedia.dfmtest.common.R as RCommon
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.common.ktx.cast
 import com.worldturtlemedia.dfmtest.common.ktx.color
@@ -22,13 +24,13 @@ data class AudioListItem(
 
         with(viewHolder) {
             with(root) {
-                if (odd(position)) setBackgroundColor(context.color(R.color.grey))
+                if (odd(position)) setBackgroundColor(context.color(RCommon.color.grey))
                 root.setOnClickListener { onClicked(state) }
             }
 
             txtLabel.text = context.getString(state.audioOption.label)
             imgAction.setImageResource(
-                if (state.isPlaying) R.drawable.ic_stop else R.drawable.ic_play
+                if (state.isPlaying) RApp.drawable.ic_stop else RApp.drawable.ic_play
             )
         }
     }

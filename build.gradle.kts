@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         google()
@@ -15,6 +17,10 @@ allprojects {
         google()
         jcenter()
     }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
 }
 
 tasks.register("clean", Delete::class) {

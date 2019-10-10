@@ -31,7 +31,7 @@ dependencies {
     implementation(project(Modules.audioBase))
     implementation(project(Modules.common))
 
-    api(Libs.kotlin)
+    implementation(Libs.kotlin)
 
     implementation(Libs.coreKtx)
     implementation(Libs.constraintlayout)
