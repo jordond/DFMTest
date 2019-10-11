@@ -13,6 +13,7 @@ object Libs {
     const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val material = "com.google.android.material:material:${Versions.material}"
 
     const val groupie = "com.xwray:groupie:${Versions.groupie}"
@@ -21,10 +22,14 @@ object Libs {
     const val timberkt = "com.github.ajalt:timberkt:${Versions.timberkt}"
 }
 
-object BuildPlugins {
-
+object RootPlugins {
     const val androidGradle = "com.android.tools.build:gradle:${Versions.gradle}"
     const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+
+    const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+}
+
+object BuildPlugins {
 
     const val library = "com.android.library"
     const val application = "com.android.application"
@@ -33,4 +38,6 @@ object BuildPlugins {
     const val kotlinAndroidExtensions = "kotlin-android-extensions"
     const val kotlinKapt = "kotlin-kapt"
     const val dynamicFeature = "com.android.dynamic-feature"
+
+    const val kotlinSafeArgs = "androidx.navigation.safeargs.kotlin"
 }

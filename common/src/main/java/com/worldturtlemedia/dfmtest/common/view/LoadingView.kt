@@ -3,42 +3,86 @@ package com.worldturtlemedia.dfmtest.common.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import androidx.appcompat.widget.AppCompatTextView
 import com.worldturtlemedia.dfmtest.common.R
+import com.worldturtlemedia.dfmtest.common.bindingadapters.visible
+import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
+import com.worldturtlemedia.dfmtest.common.ktx.bind
+import com.worldturtlemedia.dfmtest.common.ktx.dp
 
 class LoadingView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attributeSet, defStyleAttr) {
+) : FrameLayout(context, attributeSet, defStyleAttr) {
 
     init {
         inflate(context, R.layout.loading_view, this)
     }
 
+    private val layout: FrameLayout by bind(R.id.progressLayout)
+    private val progressBar: ProgressBar by bind(R.id.progressBar)
+    private val textView: AppCompatTextView by bind(R.id.txtLoadingText)
+    private val textProgress: AppCompatTextView by bind(R.id.txtProgress)
+
     private var animator: ViewPropertyAnimator? = null
-
-    var duration: Long = DEFAULT_ANIMATION_MS
-
     var isLoading: Boolean = false
-        set(value) {
-            field = value
-            setVisibility(value)
+        private set
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+
+        elevation = 99f
+        visible = false
+    }
+
+    fun setLoading(loading: Boolean, message: String? = null) {
+        isLoading = loading
+
+        textView.text = message ?: "Loading..."
+        setVisibility(isLoading)
+
+        if (!isLoading) {
+            with(progressBar) {
+                max = 0
+                progress = 0
+            }
+            textProgress.visible = false
+        }
+    }
+
+    fun setProgress(loadingProgress: LoadingProgress, handleFinished: Boolean = true) {
+        val (total, current) = loadingProgress
+        with(progressBar) {
+            max = total
+            progress = current
         }
 
-    fun resetDuration() {
-        duration = DEFAULT_ANIMATION_MS
+        with (textProgress) {
+            text = "$current/$total"
+            visible = true
+        }
+
+        if (handleFinished && current >= total) {
+            setLoading(false)
+        }
     }
 
     private fun setVisibility(isLoading: Boolean) {
         val alpha = if (isLoading) 1.0f else 0f
 
+        visibleOrGone = isLoading
+
         animator?.cancel()
-        animator = animate().alpha(alpha).setDuration(duration).also { it.start() }
+        animator =
+            layout.animate().alpha(alpha).setDuration(DEFAULT_ANIMATION_MS).also { it.start() }
     }
 
     companion object {
 
-        const val DEFAULT_ANIMATION_MS = 1000L
+        const val DEFAULT_ANIMATION_MS = 300L
     }
 }

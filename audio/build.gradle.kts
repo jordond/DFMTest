@@ -33,11 +33,13 @@ dependencies {
 
     implementation(Libs.kotlin)
 
+    implementation(Libs.appcompat)
     implementation(Libs.coreKtx)
     implementation(Libs.constraintlayout)
     implementation(Libs.lifecycleExtensions)
     implementation(Libs.lifecycleLiveData)
     implementation(Libs.lifecycleViewModel)
+    implementation(Libs.lifecycleRuntime)
     implementation(Libs.material)
     implementation(Libs.groupie)
     implementation(Libs.groupieAndroidExtensions)

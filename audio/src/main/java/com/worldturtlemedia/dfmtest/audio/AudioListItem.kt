@@ -10,10 +10,11 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.audio_list_item.*
 
-typealias OnAudioItemClicked = (AudioListItem.State) -> Unit
+typealias OnAudioItemClicked = (AudioOption) -> Unit
 
 data class AudioListItem(
-    private val state: State,
+    val audioOption: AudioOption,
+    private val isPlaying: Boolean,
     private val onClicked: OnAudioItemClicked
 ) : Item() {
 
@@ -25,23 +26,18 @@ data class AudioListItem(
         with(viewHolder) {
             with(root) {
                 if (odd(position)) setBackgroundColor(context.color(RCommon.color.grey))
-                root.setOnClickListener { onClicked(state) }
+                root.setOnClickListener { onClicked(audioOption) }
             }
 
-            txtLabel.text = context.getString(state.audioOption.label)
+            txtLabel.text = context.getString(audioOption.label)
             imgAction.setImageResource(
-                if (state.isPlaying) RApp.drawable.ic_stop else RApp.drawable.ic_play
+                if (isPlaying) RApp.drawable.ic_stop else RApp.drawable.ic_play
             )
         }
     }
 
-    override fun getId(): Long = state.hashCode().toLong()
+    override fun getId(): Long = audioOption.hashCode().toLong()
 
     override fun isSameAs(other: com.xwray.groupie.Item<*>?): Boolean =
-        other?.cast<AudioListItem>()?.state == state
-
-    data class State(
-        val audioOption: AudioOption,
-        val isPlaying: Boolean
-    )
+        other?.cast<AudioListItem>()?.audioOption == audioOption
 }

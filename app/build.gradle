@@ -6,6 +6,7 @@
 apply plugin: BuildPlugins.application
 apply plugin: BuildPlugins.kotlinAndroid
 apply plugin: BuildPlugins.kotlinAndroidExtensions
+apply plugin: BuildPlugins.kotlinSafeArgs
 
 android {
     compileSdkVersion App.compileSdk
@@ -57,6 +58,7 @@ dependencies {
     implementation(Libs.lifecycleExtensions)
     implementation(Libs.lifecycleLiveData)
     implementation(Libs.lifecycleViewModel)
+    implementation(Libs.lifecycleRuntime)
     implementation(Libs.material)
 
     implementation(Libs.timberkt)

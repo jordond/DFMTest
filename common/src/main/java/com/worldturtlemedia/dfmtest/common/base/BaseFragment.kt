@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 
 abstract class BaseFragment : Fragment() {
 
@@ -32,4 +34,8 @@ abstract class BaseFragment : Fragment() {
     protected open fun setupViews() {}
 
     protected open fun subscribeViewModel() {}
+}
+
+fun BaseFragment.navigate(directions: NavDirections) {
+    findNavController().navigate(directions)
 }

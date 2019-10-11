@@ -3,4 +3,6 @@
     <string name="now_playing">Currently playing: %1$s</string>
     <string name="audio_not_selected">No audio file selected!</string>
     <string name="none">none</string>
+    <string name="available_features">Available features: %1$s</string>
+    <string name="loaded_features">Loaded features: %1$s</string>
 </resources>
