@@ -3,11 +3,10 @@ package com.worldturtlemedia.dfmtest.ui.main
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
-import com.github.ajalt.timberkt.Timber.i
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.base.navigate
+import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.view.LoadingProgress
 import com.worldturtlemedia.dfmtest.features.Feature
 import com.worldturtlemedia.dfmtest.features.FeatureManagerModel

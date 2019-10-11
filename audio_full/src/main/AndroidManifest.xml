@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.worldturtlemedia.dfmtest.audio">
+    package="com.worldturtlemedia.dfmtest.audiofull">
 
     <dist:module
         dist:instant="false"
-        dist:title="@string/module_audio">
+        dist:title="@string/module_audio_full">
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>

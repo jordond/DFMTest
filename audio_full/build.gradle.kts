@@ -33,6 +33,8 @@ dependencies {
 
     implementation(Libs.kotlin)
 
+    implementation(Libs.navigationFragment)
+    implementation(Libs.navigationUi)
     implementation(Libs.appcompat)
     implementation(Libs.coreKtx)
     implementation(Libs.constraintlayout)
@@ -43,4 +45,6 @@ dependencies {
     implementation(Libs.material)
     implementation(Libs.groupie)
     implementation(Libs.groupieAndroidExtensions)
+
+    implementation(Libs.timberkt)
 }

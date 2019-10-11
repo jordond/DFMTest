@@ -3,10 +3,14 @@ object Modules {
 
     const val app = ":app"
     const val common = ":common"
-    const val audio = ":audio"
+
+    // TODO: These should be injected into the BuildConfig
+    const val audioFull = ":audio_full"
+    const val audioRaw = ":audio_raw"
+
     const val audioBase = ":audio_base"
 
-    val dynamic = listOf(audio)
+    val dynamic = listOf(audioFull)
 
-    val all = arrayOf(app, common, audio, audioBase)
+    val all = arrayOf(app, common, audioFull, audioBase)
 }

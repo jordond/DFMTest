@@ -1,10 +1,10 @@
 package com.worldturtlemedia.dfmtest.ui.audioplayer
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
+import com.worldturtlemedia.dfmtest.common.ktx.observe
 import kotlinx.android.synthetic.main.audio_picker_fragment.*
 
 class AudioPlayerFragment : BaseFragment() {

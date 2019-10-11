@@ -4,13 +4,20 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.i
-import com.google.android.play.core.splitinstall.SplitInstallManager
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
-import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.*
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus.*
 import com.worldturtlemedia.dfmtest.common.ktx.mutableLiveDataOf
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
+typealias OnFeatureInstalled = () -> Unit
+
+/**
+ * TODO:
+ *
+ * Maybe make this an Object?  Or a Singleton class, that get's initialized in the MainActivity?
+ */
 class FeatureManagerModel : ViewModel() {
 
     private var splitInstallManager: SplitInstallManager? = null
@@ -29,7 +36,10 @@ class FeatureManagerModel : ViewModel() {
                 ManagerStatus.RequiresConfirmation(state.resolutionIntent()?.intentSender)
             )
             INSTALLING -> emit(ManagerStatus.Installing(feature, state.asLoadingProgress()))
-            INSTALLED -> emit(ManagerStatus.Installed(feature))
+            INSTALLED -> {
+                emit(ManagerStatus.Installed(feature))
+                _installed.value = manager.installedFeatures
+            }
             FAILED -> {
                 e { "Unable to install $feature" }
                 emit(ManagerStatus.Error(feature, state.errorCode()))
@@ -49,18 +59,43 @@ class FeatureManagerModel : ViewModel() {
         splitInstallManager = SplitInstallManagerFactory.create(context).apply {
             registerListener(listener)
         }
+
+        _installed.value = manager.installedFeatures
     }
 
-    fun install(feature: Feature) {
+    suspend fun install(feature: Feature) {
         if (manager.installedModules.contains(feature.name)) {
-            i { "Feature ${feature.name} is already installed." }
-            return emit(ManagerStatus.Installed(feature))
+            i { "Feature $feature is already installed." }
+            return
         }
 
         val request = SplitInstallRequest.newBuilder().addModule(feature.name).build()
         i { "Attempting to install $feature"}
 
-        manager.startInstall(request)
+        return suspendCancellableCoroutine { continuation ->
+            manager.startInstall(request)
+                .addOnSuccessListener { continuation.resume(Unit) }
+                .addOnFailureListener { continuation.cancel(it.cause) }
+        }
+    }
+
+    suspend fun uninstall(vararg feature: Feature): Boolean {
+        i { "Uninstalling $feature" }
+
+        val features = feature.toList()
+            .map { it.name }
+            .filter { manager.installedModules.contains(it) }
+
+        if (features.isEmpty()) {
+            i { "No features to uninstall!"}
+            return true
+        }
+
+        return suspendCancellableCoroutine { continuation ->
+            manager.deferredUninstall(features)
+                .addOnSuccessListener { continuation.resume(true) }
+                .addOnFailureListener { continuation.resume(false) }
+        }
     }
 
     private fun emit(status: ManagerStatus) {
@@ -74,3 +109,22 @@ class FeatureManagerModel : ViewModel() {
         manager.unregisterListener(listener)
     }
 }
+
+suspend fun FeatureManagerModel.runWithFeature(
+    feature: Feature,
+    onFailure: (SplitInstallException) -> Unit = {},
+    onSuccess: OnFeatureInstalled
+) {
+    try {
+        install(feature)
+        onSuccess()
+    } catch (error: CancellationException) {
+        e { "Coroutine was cancelled, no more install for you!" }
+    } catch (error: SplitInstallException) {
+        e(error) { "Unable to install $feature!" }
+        onFailure(error)
+    }
+}
+
+private val SplitInstallManager.installedFeatures: Features
+    get() = installedModules.map { Feature.of(it) }

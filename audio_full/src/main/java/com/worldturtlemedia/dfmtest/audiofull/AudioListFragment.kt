@@ -1,12 +1,17 @@
-package com.worldturtlemedia.dfmtest.audio
+package com.worldturtlemedia.dfmtest.audiofull
 
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.ajalt.timberkt.e
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.audiobase.player.PlayerState
+import com.worldturtlemedia.dfmtest.audiobase.selection.SelectedAudioOptionModel
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
+import com.worldturtlemedia.dfmtest.common.ktx.cast
+import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.util.groupieAdapter
+import com.worldturtlemedia.dfmtest.common.viewmodel.sharedViewModels
 import com.worldturtlemedia.dfmtest.common.viewmodel.viewModels
 import kotlinx.android.synthetic.main.audio_list_fragment.*
 import kotlinx.coroutines.delay
@@ -17,8 +22,16 @@ class AudioListFragment : BaseFragment() {
     override fun layout(): Int = R.layout.audio_list_fragment
 
     private val viewModel: AudioListModel by viewModels()
+    private val selectedOptionModel: SelectedAudioOptionModel by sharedViewModels()
 
-    private val listAdapter = groupieAdapter()
+    private val listAdapter = groupieAdapter {
+        setOnItemClickListener { item, _ ->
+            val option = item.cast<AudioListItem>() ?: return@setOnItemClickListener
+
+            selectedOptionModel.setSelected(option.audioOption)
+            navigateBack()
+        }
+    }
 
     override fun setupViews() {
         with(rvAudio) {
@@ -26,9 +39,7 @@ class AudioListFragment : BaseFragment() {
             adapter = listAdapter
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            createInitialListItems()
-        }
+        createInitialListItems()
     }
 
     override fun subscribeViewModel() {
@@ -37,27 +48,23 @@ class AudioListFragment : BaseFragment() {
                 is PlayerState.Playing -> refreshList(state.selected)
                 else -> refreshList(null)
             }
+
+            selectedOptionModel.setSelected(state.selected)
         }
     }
 
-    private suspend fun createInitialListItems() {
-        loadingView.setLoading(true, "Loading the audio files")
-
-        // Artificial delay, for funsies
-        delay(3000)
-
+    private fun createInitialListItems() {
         // Build the list items
         val items = AudioFiles.options.map { option ->
             AudioListItem(option, false, ::onAudioItemClicked)
         }
-        listAdapter.updateAsync(items) {
-            loadingView.setLoading(false)
-        }
+
+        listAdapter.updateAsync(items)
     }
 
     private fun refreshList(option: AudioOption?) {
         val items = AudioFiles.options.map { current ->
-            AudioListItem(current, isPlaying = option == current, onClicked = ::onAudioItemClicked)
+            AudioListItem(current, isPlaying = option == current, onMediaToggle = ::onAudioItemClicked)
         }
 
         listAdapter.updateAsync(items)
@@ -65,7 +72,18 @@ class AudioListFragment : BaseFragment() {
 
     private fun onAudioItemClicked(option: AudioOption) {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.play(requireContext(), option)
+            viewModel.audioItemClicked(requireContext(), option)
+        }
+    }
+
+    private fun navigateBack() {
+        // TODO
+        // Ideally we would have an interface, with an injected implementation, but for easiness
+        // we can just pop the backstack (if it exists...)
+        try {
+            findNavController().popBackStack()
+        } catch (error: Throwable) {
+            e { "Could not find the nav controller!" }
         }
     }
 }

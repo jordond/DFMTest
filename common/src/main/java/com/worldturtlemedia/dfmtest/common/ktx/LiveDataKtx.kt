@@ -19,3 +19,7 @@ fun <T, R> LiveData<T>.observeProperty(
 ) {
     map(property).distinctUntilChanged().observe(owner, onChange)
 }
+
+inline fun <T> LiveData<T>.observe(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
+    observe(owner, Observer { it?.let(observer) })
+}

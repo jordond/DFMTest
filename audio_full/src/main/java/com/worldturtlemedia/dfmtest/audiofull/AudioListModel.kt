@@ -1,4 +1,4 @@
-package com.worldturtlemedia.dfmtest.audio
+package com.worldturtlemedia.dfmtest.audiofull
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -25,8 +25,9 @@ class AudioListModel : AudioPlayerViewModel(
         }
     }
 
-    fun audioItemClicked(context: Context, audioOption: AudioOption) {
-
+    suspend fun audioItemClicked(context: Context, audioOption: AudioOption) {
+        if (currentState.selected == audioOption) play(context, audioOption)
+        else stop()
     }
 
     suspend fun play(context: Context, audioOption: AudioOption) {

@@ -2,12 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_audio">
+    android:id="@+id/nav_audio"
+    app:startDestination="@id/audioListFragment"
+    >
 
 <!-- This will be RED in Android Studio, but should still compile just fine :)   -->
     <fragment
-        android:id="@+id/audioPickerFragment"
-        android:name="com.worldturtlemedia.dfmtest.audio.AudioListFragment"
+        android:id="@+id/audioListFragment"
+        android:name="com.worldturtlemedia.dfmtest.audiofull.AudioListFragment"
         android:label="Audio Picker"
         tools:layout="@layout/audio_list_fragment"
         />
