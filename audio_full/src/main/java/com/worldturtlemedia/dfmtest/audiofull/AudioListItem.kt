@@ -1,6 +1,7 @@
 package com.worldturtlemedia.dfmtest.audiofull
 
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
+import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.ktx.cast
 import com.worldturtlemedia.dfmtest.common.ktx.color
 import com.worldturtlemedia.dfmtest.common.ktx.odd
@@ -29,6 +30,7 @@ data class AudioListItem(
             txtLabel.text = context.getString(audioOption.label)
 
             with(imgAction) {
+                visibleOrGone = audioOption.rawRes != null
                 setOnClickListener { onMediaToggle(audioOption) }
                 imgAction.setImageResource(
                     if (isPlaying) RApp.drawable.ic_stop else RApp.drawable.ic_play

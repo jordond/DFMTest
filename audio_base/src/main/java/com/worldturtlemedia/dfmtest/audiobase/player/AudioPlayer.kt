@@ -1,16 +1,17 @@
 package com.worldturtlemedia.dfmtest.audiobase.player
 
 import android.content.Context
-import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.net.Uri
 import androidx.annotation.RawRes
 import com.github.ajalt.timberkt.e
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
 
 typealias OnStateChange = (state: PlayerState) -> Unit
 
+/**
+ * This was adapted quickly from another project that was geared toward playing a single file.
+ *
+ * It is a quick and dirty implementation of an media player
+ */
 class AudioPlayer {
 
     private var state: PlayerState =
@@ -20,19 +21,7 @@ class AudioPlayer {
             field = value
         }
 
-    private val mediaPlayer: MediaPlayer by lazy {
-        MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-            )
-            setOnCompletionListener {
-                state = PlayerState.Finished
-                reset()
-            }
-        }
-    }
+    private var mediaPlayer: MediaPlayer? = null
 
     private var onStateChanged: OnStateChange = {}
 
@@ -41,12 +30,13 @@ class AudioPlayer {
         block(state)
     }
 
-    suspend fun playFile(context: Context, fileUri: Uri): Boolean {
-        return prepareMediaPlayer(context, fileUri) && start()
+    fun playFile(context: Context, @RawRes rawRes: Int): Boolean {
+        createPlayer(context, rawRes)
+        return start()
     }
 
     private fun start(): Boolean = try {
-        mediaPlayer.start()
+        mediaPlayer?.start()
         state = PlayerState.Playing
         true
     } catch (error: Throwable) {
@@ -56,8 +46,8 @@ class AudioPlayer {
     }
 
     fun stop(): Boolean = try {
-        mediaPlayer.stop()
-        mediaPlayer.reset()
+        mediaPlayer?.stop()
+        mediaPlayer?.reset()
         state = PlayerState.Idle
         true
     } catch (error: Throwable) {
@@ -68,8 +58,9 @@ class AudioPlayer {
 
     fun destroy() {
         state = try {
-            mediaPlayer.stop()
-            mediaPlayer.release()
+            mediaPlayer?.stop()
+            mediaPlayer?.release()
+            mediaPlayer = null
             PlayerState.Released
         } catch (error: Throwable) {
             e(error) { "Unable to release the MediaPlayer" }
@@ -77,22 +68,14 @@ class AudioPlayer {
         }
     }
 
-    private suspend fun prepareMediaPlayer(context: Context, fileUri: Uri): Boolean {
-        return suspendCancellableCoroutine { continuation ->
-            try {
-                with(mediaPlayer) {
-                    setDataSource(context.applicationContext, fileUri)
-                    setOnPreparedListener {
-                        state = PlayerState.Idle
-                        continuation.resume(true)
-                    }
-                    prepareAsync()
-                }
-            } catch (error: Throwable) {
-                e(error) { "Unable to prepare media player with $fileUri" }
-                state = PlayerState.Error(PlayerError.Unknown(error))
-                continuation.resume(false)
+    private fun createPlayer(context: Context, @RawRes rawRes: Int) {
+        val player = MediaPlayer.create(context, rawRes).apply {
+            setOnCompletionListener {
+                state = PlayerState.Finished
+                reset()
             }
         }
+
+        mediaPlayer = player
     }
 }

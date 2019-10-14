@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.play.core.splitinstall.SplitInstallException
-import com.google.android.play.core.splitinstall.model.SplitInstallErrorCode
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.audiobase.selection.SelectedAudioOptionModel
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
@@ -42,7 +41,7 @@ class AudioPickerFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun subscribeViewModel() {
         selectedAudioModel.selectedOption.observe(owner) { selected ->
-            txtSelected.text = "Selected:\n${selected.label} - ${selected.rawRes}"
+            txtSelected.text = "Selected:\n${getString(selected.label)} - res: ${selected.rawRes}"
         }
     }
 

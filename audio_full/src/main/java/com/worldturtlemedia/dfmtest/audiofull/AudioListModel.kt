@@ -2,22 +2,24 @@ package com.worldturtlemedia.dfmtest.audiofull
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.audiobase.AudioPlayerUseCase
 import com.worldturtlemedia.dfmtest.audiobase.AudioPlayerViewModel
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.audiobase.player.PlayerState
+import com.worldturtlemedia.dfmtest.common.ktx.mediatorLiveDataOf
 
 class AudioListModel : AudioPlayerViewModel(
     // Ideally be injected
     AudioPlayerUseCase()
 ) {
 
-    private val _state = MediatorLiveData<AudioListState>().also { it.value = AudioListState() }
-    private val currentState: AudioListState
-        get() = _state.value!!
+    private val _state = mediatorLiveDataOf(AudioListState())
     val state: LiveData<AudioListState>
         get() = _state
+
+    private val currentState: AudioListState
+        get() = _state.value!!
 
     init {
         _state.addSource(audioPlayer.playerState) { status ->
@@ -25,17 +27,22 @@ class AudioListModel : AudioPlayerViewModel(
         }
     }
 
-    suspend fun audioItemClicked(context: Context, audioOption: AudioOption) {
-        if (currentState.selected == audioOption) play(context, audioOption)
-        else stop()
+    fun audioItemClicked(context: Context, audioOption: AudioOption) {
+        i { "Current Player state: ${currentState.status}" }
+        when {
+            currentState.status is PlayerState.Playing ->
+                if (currentState.selected != audioOption) play(context, audioOption)
+                else stop()
+            currentState.status is PlayerState.Idle -> play(context, audioOption)
+        }
     }
 
-    suspend fun play(context: Context, audioOption: AudioOption) {
+    private fun play(context: Context, audioOption: AudioOption) {
         updateState { copy(selected = audioOption) }
         audioPlayer.play(context, audioOption)
     }
 
-    fun stop() {
+    private fun stop() {
         audioPlayer.stop()
         updateState { copy(selected = null) }
     }

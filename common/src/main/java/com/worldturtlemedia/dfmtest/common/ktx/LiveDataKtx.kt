@@ -12,6 +12,9 @@ fun <T> liveDataOf(data: T? = null): LiveData<T> =
 fun <T> mutableLiveDataOf(data: T? = null): MutableLiveData<T> =
     MutableLiveData<T>().apply { value = data }
 
+fun <T> mediatorLiveDataOf(data: T? = null): MediatorLiveData<T> =
+    MediatorLiveData<T>().apply { value = data }
+
 fun <T, R> LiveData<T>.observeProperty(
     owner: LifecycleOwner,
     property: (T) -> R,
