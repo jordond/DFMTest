@@ -10,7 +10,7 @@ object Modules {
 
     const val audioBase = ":audio_base"
 
-    val dynamic = listOf(audioFull)
+    val dynamic = listOf(audioFull, audioRaw)
 
-    val all = arrayOf(app, common, audioFull, audioBase)
+    val all = arrayOf(app, common, audioBase, audioFull, audioRaw)
 }
