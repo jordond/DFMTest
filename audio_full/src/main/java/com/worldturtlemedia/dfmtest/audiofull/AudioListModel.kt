@@ -23,6 +23,7 @@ class AudioListModel : AudioPlayerViewModel(
 
     init {
         _state.addSource(audioPlayer.playerState) { status ->
+            i { "Player state: $status" }
             updateState { copy(status = status) }
         }
     }
@@ -52,6 +53,7 @@ class AudioListModel : AudioPlayerViewModel(
     }
 
     override fun onCleared() {
+        i { "Clearing VM, time to destroy!" }
         audioPlayer.destroy()
         super.onCleared()
     }

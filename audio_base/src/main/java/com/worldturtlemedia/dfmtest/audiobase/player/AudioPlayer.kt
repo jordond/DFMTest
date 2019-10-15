@@ -31,6 +31,9 @@ class AudioPlayer {
     }
 
     fun playFile(context: Context, @RawRes rawRes: Int): Boolean {
+        if (state is PlayerState.Playing) mediaPlayer?.stop()
+        mediaPlayer?.release()
+
         createPlayer(context, rawRes)
         return start()
     }

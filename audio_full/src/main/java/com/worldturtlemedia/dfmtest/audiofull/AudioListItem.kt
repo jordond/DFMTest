@@ -1,5 +1,6 @@
 package com.worldturtlemedia.dfmtest.audiofull
 
+import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.ktx.cast
@@ -25,6 +26,7 @@ data class AudioListItem(
         val context = viewHolder.root.context
 
         with(viewHolder) {
+            i { "Binding ${audioOption.label} at #$position" }
             if (odd(position)) root.setBackgroundColor(context.color(RCommon.color.grey))
 
             txtLabel.text = context.getString(audioOption.label)
