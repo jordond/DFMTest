@@ -112,7 +112,7 @@ class FeatureManagerModel : ViewModel() {
 
 suspend fun FeatureManagerModel.runWithFeature(
     feature: Feature,
-    onFailure: (SplitInstallException) -> Unit = {},
+    onFailure: ((SplitInstallException) -> Unit)? = null,
     onSuccess: OnFeatureInstalled
 ) {
     try {
@@ -122,7 +122,7 @@ suspend fun FeatureManagerModel.runWithFeature(
         e { "Coroutine was cancelled, no more install for you!" }
     } catch (error: SplitInstallException) {
         e(error) { "Unable to install $feature!" }
-        onFailure(error)
+        onFailure?.invoke(error) ?: throw error
     }
 }
 

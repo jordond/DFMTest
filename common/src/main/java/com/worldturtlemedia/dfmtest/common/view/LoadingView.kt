@@ -40,11 +40,13 @@ class LoadingView @JvmOverloads constructor(
     }
 
     fun setLoading(loading: Boolean, message: String? = null) {
+        if (textView.text != message) {
+            textView.text = message ?: "Loading..."
+        }
+
         if (loading == isLoading) return
 
         isLoading = loading
-
-        textView.text = message ?: "Loading..."
         setVisibility(isLoading)
 
         if (!isLoading) {

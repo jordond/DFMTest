@@ -39,6 +39,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    // TODO: Have a better solution
+    fun setLoading(isLoading: Boolean, message: String? = null) {
+        loadingView.setLoading(isLoading, message)
+    }
+
     private fun updateLoading(message: String, feature: Feature, progress: LoadingProgress) {
         with (loadingView) {
             setLoading(true, "$message ${feature.name}...")
