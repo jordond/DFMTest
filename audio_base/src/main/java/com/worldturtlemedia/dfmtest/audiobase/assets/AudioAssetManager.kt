@@ -2,40 +2,56 @@ package com.worldturtlemedia.dfmtest.audiobase.assets
 
 import android.app.Activity
 import android.content.Context
-import com.github.ajalt.timberkt.d
+import android.content.res.AssetManager
+import com.github.ajalt.timberkt.e
+import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioFileOption
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.lang.IllegalStateException
 
-class AudioAssetManager {
+class AudioAssetManager(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
-    private var _audioFiles = mutableListOf<AudioFileOption>()
-    val audioFiles: List<AudioFileOption>
-        get() = _audioFiles
+    private var audioFiles = mutableListOf<AudioFileOption>()
 
-    // Step 1: Check if audio files exist
-    //      Check if zip file exists
-    //          If not, throw error, because module isn't installed
-    //          If so, unzip the files to `assetPath`
-    //
-    // Step 2: Get a list of all files in `assetPath`
+    suspend fun getAudioFiles(activity: Activity): List<AudioFileOption> {
+        if (audioFiles.isNotEmpty()) {
+            i { "Returning cached list of assets." }
+            return audioFiles
+        }
 
-    suspend fun init(activity: Activity) {
-        if (_audioFiles.isNotEmpty()) return
+        if (!activity.assetPath.exists() || !hasAudioFiles(activity)) {
+            val stream = getZipStream(activity)
+            unzip(stream, activity.assetPath, dispatcher = dispatcher)
+        }
 
-        assetPath(activity).list().toList().isNotEmpty()
-        val assetManager = activity.assetManager
+        if (!hasAudioFiles(activity)) {
+            throw IllegalStateException("Files don't exist after extracting!")
+        }
 
-
+        audioFiles = createAudioFileList(activity).mapToAudioFileOption().toMutableList()
+        return audioFiles
     }
 
-    private fun hasExtractedAssets(activity: Activity) {
-        activity.assetPath.list().toList()
-            .also { list -> d { "List of assets: $list" } }
-            .isNotEmpty()
+    private fun createAudioFileList(activity: Activity): List<File> {
+        return activity.assetPath.list()?.toList()?.map { File(it) } ?: emptyList()
     }
 
-    private fun createAudioFileList(activity: Activity) {
-        activity.assetPath.list().toList().map { File(it) }
+    private fun hasAudioFiles(activity: Activity) = createAudioFileList(activity).isNotEmpty()
+
+    private fun getZipStream(activity: Activity): InputStream {
+        return try {
+            activity.assetManager.open(RAW_ASSETS_FILENAME)
+                ?: throw IOException("Steam was null")
+        } catch (error: IOException) {
+            e(error) { "Unable to open $RAW_ASSETS_FILENAME, is the module installed?" }
+            throw IOException("Unable to open assets, is the module installed?")
+        }
     }
 
     companion object {
@@ -54,5 +70,5 @@ class AudioAssetManager {
 val Context.assetPath: File
     get() = AudioAssetManager.assetPath(this)
 
-private val Activity.assetManager: Context
-    get() = createPackageContext(packageName, 0)
+private val Activity.assetManager: AssetManager
+    get() = createPackageContext(packageName, 0).assets

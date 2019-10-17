@@ -23,9 +23,9 @@ suspend fun unzip(
     inputStream: InputStream,
     targetDir: File,
     overwrite: Boolean = true,
-    coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
     onExtracted: (entry: ZipEntry) -> Unit = {}
-) = withContext(coroutineDispatcher) {
+) = withContext(dispatcher) {
     ZipInputStream(inputStream).use { zipStream ->
         zipStream.forEachEntry { entry ->
             i { "Extracting: ${entry.name}" }

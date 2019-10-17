@@ -1,30 +1,21 @@
 package com.worldturtlemedia.dfmtest.audiofull
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import com.github.ajalt.timberkt.i
-import com.worldturtlemedia.dfmtest.audiobase.AudioPlayerUseCase
-import com.worldturtlemedia.dfmtest.audiobase.AudioPlayerViewModel
+import com.worldturtlemedia.dfmtest.audiobase.player.AudioPlayerUseCase
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.audiobase.player.PlayerState
-import com.worldturtlemedia.dfmtest.common.ktx.mediatorLiveDataOf
+import com.worldturtlemedia.dfmtest.common.viewmodel.State
+import com.worldturtlemedia.dfmtest.common.viewmodel.StateViewModel
 
-class AudioListModel : AudioPlayerViewModel(
-    // Ideally be injected
-    AudioPlayerUseCase()
-) {
+class AudioListModel : StateViewModel<AudioListState>(AudioListState()) {
 
-    private val _state = mediatorLiveDataOf(AudioListState())
-    val state: LiveData<AudioListState>
-        get() = _state
-
-    private val currentState: AudioListState
-        get() = _state.value!!
+    private val audioPlayer: AudioPlayerUseCase = AudioPlayerUseCase()
 
     init {
-        _state.addSource(audioPlayer.playerState) { status ->
+        addStateSource(audioPlayer.playerState) { state, status ->
             i { "Player state: $status" }
-            updateState { copy(status = status) }
+            state.copy(status = status)
         }
     }
 
@@ -48,12 +39,7 @@ class AudioListModel : AudioPlayerViewModel(
         updateState { copy(selected = null) }
     }
 
-    private fun updateState(block: AudioListState.() -> AudioListState) {
-        _state.value = block(currentState)
-    }
-
     override fun onCleared() {
-        i { "Clearing VM, time to destroy!" }
         audioPlayer.destroy()
         super.onCleared()
     }
@@ -62,4 +48,4 @@ class AudioListModel : AudioPlayerViewModel(
 data class AudioListState(
     val selected: AudioOption? = null,
     val status: PlayerState = PlayerState.None
-)
+) : State
