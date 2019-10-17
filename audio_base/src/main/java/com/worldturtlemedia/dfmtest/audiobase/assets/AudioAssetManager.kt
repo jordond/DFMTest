@@ -6,43 +6,45 @@ import android.content.res.AssetManager
 import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioFileOption
+import com.worldturtlemedia.dfmtest.common.features.FeatureManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
-import java.lang.IllegalStateException
 
 class AudioAssetManager(
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val featureManager: FeatureManager = FeatureManager.instance
 ) {
 
     private var audioFiles = mutableListOf<AudioFileOption>()
 
-    suspend fun getAudioFiles(activity: Activity): List<AudioFileOption> {
+    fun getAudioFiles(activity: Activity): List<AudioFileOption> {
         if (audioFiles.isNotEmpty()) {
             i { "Returning cached list of assets." }
             return audioFiles
         }
 
-        if (!activity.assetPath.exists() || !hasAudioFiles(activity)) {
-            val stream = getZipStream(activity)
-            unzip(stream, activity.assetPath, dispatcher = dispatcher)
-        }
-
-        if (!hasAudioFiles(activity)) {
-            throw IllegalStateException("Files don't exist after extracting!")
-        }
+        check(hasAudioFiles(activity)) { "Files don't exist on disk! Have you called `unzipAudioFiles`?" }
 
         audioFiles = createAudioFileList(activity).mapToAudioFileOption().toMutableList()
         return audioFiles
     }
 
-    private fun createAudioFileList(activity: Activity): List<File> {
-        return activity.assetPath.list()?.toList()?.map { File(it) } ?: emptyList()
+    suspend fun unzipAudioFiles(activity: Activity) {
+        if (!hasAudioFiles(activity)) {
+            val stream = getZipStream(activity)
+            unzip(stream, activity.assetPath, dispatcher = dispatcher)
+        }
     }
 
-    private fun hasAudioFiles(activity: Activity) = createAudioFileList(activity).isNotEmpty()
+    fun hasAudioFiles(activity: Activity) =
+        audioFiles.isNotEmpty() || (activity.assetPath.exists() && createAudioFileList(activity).isNotEmpty())
+
+    private fun createAudioFileList(activity: Activity): List<File> {
+        return activity.assetPath.list()?.toList()?.map { File(activity.assetPath, it) } ?: emptyList()
+    }
 
     private fun getZipStream(activity: Activity): InputStream {
         return try {

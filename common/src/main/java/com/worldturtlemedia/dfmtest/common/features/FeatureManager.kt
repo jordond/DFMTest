@@ -1,7 +1,8 @@
-package com.worldturtlemedia.dfmtest.features
+package com.worldturtlemedia.dfmtest.common.features
 
 import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.distinctUntilChanged
 import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.i
 import com.google.android.play.core.splitinstall.*
@@ -11,18 +12,22 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-typealias OnFeatureInstalled = () -> Unit
+class FeatureManager {
 
-/**
- * TODO:
- *
- * Maybe make this an Object?  Or a Singleton class, that get's initialized in the MainActivity?
- */
-class FeatureManagerModel : ViewModel() {
+    companion object {
+        lateinit var instance: FeatureManager
+            private set
+
+        fun init(context: Context) = FeatureManager().also { manager ->
+            instance = manager
+            instance.init(context)
+        }
+    }
 
     private var splitInstallManager: SplitInstallManager? = null
     private val manager: SplitInstallManager
-        get() = splitInstallManager ?: throw IllegalStateException("Did you forget to call `init()`?")
+        get() = splitInstallManager
+            ?: throw IllegalStateException("Did you forget to call `init()`?")
 
     private val _installed = mutableLiveDataOf<Features>(emptyList())
     val installedFeatures: LiveData<List<Feature>>
@@ -56,11 +61,17 @@ class FeatureManagerModel : ViewModel() {
         }
 
         i { "Initializing SplitInstallManager" }
-        splitInstallManager = SplitInstallManagerFactory.create(context).apply {
-            registerListener(listener)
-        }
-
+        splitInstallManager = SplitInstallManagerFactory.create(context)
         _installed.value = manager.installedFeatures
+    }
+
+    fun registerListener() {
+        unregisterListener()
+        splitInstallManager?.registerListener(listener)
+    }
+
+    fun unregisterListener() {
+        splitInstallManager?.unregisterListener(listener)
     }
 
     suspend fun install(feature: Feature) {
@@ -70,7 +81,7 @@ class FeatureManagerModel : ViewModel() {
         }
 
         val request = SplitInstallRequest.newBuilder().addModule(feature.name).build()
-        i { "Attempting to install $feature"}
+        i { "Attempting to install $feature" }
 
         return suspendCancellableCoroutine { continuation ->
             manager.startInstall(request)
@@ -87,7 +98,7 @@ class FeatureManagerModel : ViewModel() {
             .filter { manager.installedModules.contains(it) }
 
         if (features.isEmpty()) {
-            i { "No features to uninstall!"}
+            i { "No features to uninstall!" }
             return true
         }
 
@@ -102,29 +113,29 @@ class FeatureManagerModel : ViewModel() {
         i { "Emitting status: $status" }
         _status.value = status
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        i { "Unregistering SplitInstallManager" }
-        manager.unregisterListener(listener)
-    }
 }
 
-suspend fun FeatureManagerModel.runWithFeature(
+suspend inline fun <T> FeatureManager.runWithFeature(
     feature: Feature,
-    onFailure: ((SplitInstallException) -> Unit)? = null,
-    onSuccess: OnFeatureInstalled
-) {
+    noinline onFailure: ((SplitInstallException) -> Unit)? = null,
+    onSuccess: () -> T
+): T? {
     try {
         install(feature)
-        onSuccess()
-    } catch (error: CancellationException) {
-        e { "Coroutine was cancelled, no more install for you!" }
+        return onSuccess()
     } catch (error: SplitInstallException) {
         e(error) { "Unable to install $feature!" }
         onFailure?.invoke(error) ?: throw error
     }
+
+    return null
 }
 
-private val SplitInstallManager.installedFeatures: Features
+suspend inline fun <T> FeatureManager.runWithFeature(
+    feature: Feature,
+    onSuccess: () -> T
+): T = runWithFeature(feature, onFailure = { throw it }, onSuccess = onSuccess)
+    ?: throw IllegalStateException("Unable to install $feature")
+
+val SplitInstallManager.installedFeatures: Features
     get() = installedModules.map { Feature.of(it) }

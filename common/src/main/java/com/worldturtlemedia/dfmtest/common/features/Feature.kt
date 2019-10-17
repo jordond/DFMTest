@@ -1,4 +1,4 @@
-package com.worldturtlemedia.dfmtest.features
+package com.worldturtlemedia.dfmtest.common.features
 
 import java.lang.IllegalArgumentException
 

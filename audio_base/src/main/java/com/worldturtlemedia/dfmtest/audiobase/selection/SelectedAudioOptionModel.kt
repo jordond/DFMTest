@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.common.ktx.mutableLiveDataOf
 
+/**
+ * Shared ViewModel between the AudioPickerFragment and the Dynamic module AudioListFragment
+ */
 class SelectedAudioOptionModel : ViewModel() {
 
     private val _selectedOption = mutableLiveDataOf<AudioOption>()

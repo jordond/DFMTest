@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.worldturtlemedia.dfmtest.audiobase.assets.AudioAssetManager
+import com.worldturtlemedia.dfmtest.audiobase.assets.GetAudioFilesUseCase
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioFileOption
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.audiobase.player.AudioPlayerUseCase
@@ -19,6 +20,8 @@ class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
 
     private val audioAssetManager = AudioAssetManager.instance
 
+    private val getAudioFilesUseCase = GetAudioFilesUseCase()
+
     // TODO: Currently the AudioPlayer is only setup to handle AudioOptions (with RAW assets)
     private val audioPlayerUseCase = AudioPlayerUseCase()
 
@@ -30,18 +33,10 @@ class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
         }
     }
 
-    /**
-     * The feature module: "audio_raw" needs to be available!
-     * Will throw if the module has not yet been installed!
-     */
     fun getAudioFiles(activity: Activity) = viewModelScope.launch {
-        // TODO: Move feature installer to a singleton
-        // Ensure feature is installed before the following
-
         updateState { copy(isLoadingAssets = true) }
 
-        // TODO: Wrap this in error handling and update UI on failure
-        val list = audioAssetManager.getAudioFiles(activity)
+        val list = getAudioFilesUseCase.execute(activity)
         updateState {
             copy(
                 isLoadingAssets = false,

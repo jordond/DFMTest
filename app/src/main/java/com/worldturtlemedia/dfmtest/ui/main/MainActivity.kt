@@ -5,12 +5,10 @@ import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseActivity
 import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.view.LoadingProgress
-import com.worldturtlemedia.dfmtest.features.Feature
-import com.worldturtlemedia.dfmtest.features.FeatureManagerModel
-import com.worldturtlemedia.dfmtest.features.ManagerStatus
-import com.worldturtlemedia.dfmtest.features.ManagerStatus.*
-import com.worldturtlemedia.dfmtest.features.display
-import kotlinx.android.synthetic.main.main_activity.*
+import com.worldturtlemedia.dfmtest.common.features.Feature
+import com.worldturtlemedia.dfmtest.common.features.FeatureManagerModel
+import com.worldturtlemedia.dfmtest.common.features.ManagerStatus.*
+import com.worldturtlemedia.dfmtest.common.features.display
 import kotlinx.android.synthetic.main.main_activity.loadingView
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -23,7 +21,7 @@ class MainActivity : BaseActivity() {
     override fun afterCreate() {
         featureMangerModel.init(this)
 
-        featureMangerModel.status.observe(this) { status ->
+        featureMangerModel.manager.status.observe(this) { status ->
             when (status) {
                 is Downloading -> updateLoading("Downloading", status.feature, status.progress)
                 is Installing -> updateLoading("Installing", status.feature, status.progress)
@@ -34,7 +32,7 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        featureMangerModel.installedFeatures.observe(this) { installed ->
+        featureMangerModel.manager.installedFeatures.observe(this) { installed ->
             txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, installed.display)
         }
     }

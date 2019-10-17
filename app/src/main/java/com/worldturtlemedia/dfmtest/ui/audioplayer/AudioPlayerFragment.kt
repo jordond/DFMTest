@@ -8,12 +8,10 @@ import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
+import com.worldturtlemedia.dfmtest.common.features.FeatureManagerModel
 import com.worldturtlemedia.dfmtest.common.ktx.cast
 import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.viewmodel.observeProperty
-import com.worldturtlemedia.dfmtest.features.Feature
-import com.worldturtlemedia.dfmtest.features.FeatureManagerModel
-import com.worldturtlemedia.dfmtest.features.runWithFeature
 import com.worldturtlemedia.dfmtest.ui.main.MainActivity
 import kotlinx.android.synthetic.main.audio_player_fragment.*
 import kotlinx.coroutines.launch
@@ -39,9 +37,7 @@ class AudioPlayerFragment : BaseFragment() {
 
         btnLoad.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
-                featureManagerModel.runWithFeature(Feature.AudioRaw) {
-                    viewModel.getAudioFiles(requireActivity())
-                }
+                viewModel.getAudioFiles(requireActivity())
             }
         }
     }
@@ -61,7 +57,7 @@ class AudioPlayerFragment : BaseFragment() {
                 visibleOrGone = state.selected != null
                 text = state.selected
                     ?.let { option ->
-                        "Selected #${state.selectedAudio} - ${getString(option.label)}"
+                        "Selected #${state.selectedAudio} - ${getString(option.label)}\n${option.file?.absolutePath}"
                     }
                     ?: "Nothing Selected"
             }

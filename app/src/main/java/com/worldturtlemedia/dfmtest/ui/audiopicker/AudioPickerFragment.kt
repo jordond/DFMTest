@@ -11,9 +11,9 @@ import com.worldturtlemedia.dfmtest.audiobase.selection.SelectedAudioOptionModel
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.base.navigate
 import com.worldturtlemedia.dfmtest.common.ktx.observe
-import com.worldturtlemedia.dfmtest.features.Feature
-import com.worldturtlemedia.dfmtest.features.FeatureManagerModel
-import com.worldturtlemedia.dfmtest.features.runWithFeature
+import com.worldturtlemedia.dfmtest.common.features.Feature
+import com.worldturtlemedia.dfmtest.common.features.FeatureManager
+import com.worldturtlemedia.dfmtest.common.features.runWithFeature
 import kotlinx.android.synthetic.main.audio_picker_fragment.*
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,6 @@ class AudioPickerFragment : BaseFragment() {
     override fun layout(): Int = R.layout.audio_picker_fragment
 
     private val viewModel: AudioPickerModel by viewModels()
-    private val featureManagerModel: FeatureManagerModel by activityViewModels()
     private val selectedAudioModel: SelectedAudioOptionModel by activityViewModels()
 
     override fun setupViews() {
@@ -47,7 +46,7 @@ class AudioPickerFragment : BaseFragment() {
 
     private suspend fun launchAudioPickerScreen() {
         fab.isEnabled = false
-        featureManagerModel.runWithFeature(Feature.AudioFull, onFailure = ::installFailed) {
+        FeatureManager.instance.runWithFeature(Feature.AudioFull, onFailure = ::installFailed) {
             navigate(AudioPickerFragmentDirections.toAudioPicker())
         }
     }

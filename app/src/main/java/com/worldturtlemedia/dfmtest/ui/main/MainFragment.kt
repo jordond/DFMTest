@@ -6,11 +6,11 @@ import androidx.lifecycle.lifecycleScope
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.base.navigate
+import com.worldturtlemedia.dfmtest.common.features.Feature
+import com.worldturtlemedia.dfmtest.common.features.FeatureManagerModel
+import com.worldturtlemedia.dfmtest.common.features.display
 import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.view.LoadingProgress
-import com.worldturtlemedia.dfmtest.features.Feature
-import com.worldturtlemedia.dfmtest.features.FeatureManagerModel
-import com.worldturtlemedia.dfmtest.features.display
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class MainFragment : BaseFragment() {
 
             viewLifecycleOwner.lifecycleScope.launch {
                 val total = 100_000
-                for (current in 0 .. total step 200) {
+                for (current in 0..total step 200) {
                     delay(10)
                     loadingView.setProgress(LoadingProgress(total, current))
                 }
@@ -48,7 +48,7 @@ class MainFragment : BaseFragment() {
     }
 
     override fun subscribeViewModel() {
-        featureManagerModel.installedFeatures.observe(owner) { features ->
+        featureManagerModel.manager.installedFeatures.observe(owner) { features ->
             val string = if (features.isEmpty()) getString(R.string.none) else features.display
             txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, string)
         }
