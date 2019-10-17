@@ -10,15 +10,6 @@ import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-/**
- * 1. Check if module is loaded
- *  1a. If not load Module
- * 2. Check if audio files exist
- *  2a. If not unzip to folder
- * 3.
- *
- */
-
 suspend fun unzip(
     inputStream: InputStream,
     targetDir: File,
