@@ -18,6 +18,8 @@ android {
         versionName = App.name
 
         buildConfigField("FEATURE_MODULE_NAMES", Modules.dynamic.toSet())
+        buildConfigField("FEATURE_MODULE_AUDIO_RAW", Modules.audioRaw)
+        buildConfigField("FEATURE_MODULE_AUDIO_FULL", Modules.audioFull)
     }
 
     compileOptions {
@@ -51,6 +53,10 @@ dependencies {
     implementation(Libs.groupieAndroidExtensions)
 
     implementation(Libs.timberkt)
+}
+
+fun DefaultConfig.buildConfigField(name: String, value: String) {
+    buildConfigField("String", name, "\"$value\"")
 }
 
 fun DefaultConfig.buildConfigField(name: String, value: Set<String>) {

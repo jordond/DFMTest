@@ -1,13 +1,13 @@
 package com.worldturtlemedia.dfmtest.common.features
 
+import com.worldturtlemedia.dfmtest.common.BuildConfig
 import java.lang.IllegalArgumentException
 
 typealias Features = List<Feature>
 
-// TODO: Should read the `name`s from the BuildConfig
 sealed class Feature(val name: String) {
-    object AudioRaw : Feature("audio_raw")
-    object AudioFull : Feature("audio_full")
+    object AudioRaw : Feature(BuildConfig.FEATURE_MODULE_AUDIO_RAW.replace(":", ""))
+    object AudioFull : Feature(BuildConfig.FEATURE_MODULE_AUDIO_FULL.replace(":", ""))
 
     companion object {
         val all = listOf(AudioRaw, AudioFull)
