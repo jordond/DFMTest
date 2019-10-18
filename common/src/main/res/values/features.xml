@@ -2,4 +2,5 @@
 <resources>
     <string name="module_audio_full">DFM Audio Full Impl</string>
     <string name="module_audio_raw">DFM Audio Raw</string>
+    <string name="module_test">DFM Test Feature</string>
 </resources>

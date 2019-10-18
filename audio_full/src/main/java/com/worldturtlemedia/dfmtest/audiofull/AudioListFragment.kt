@@ -77,7 +77,6 @@ class AudioListFragment : BaseFragment() {
     }
 
     private fun navigateBack() {
-        // TODO
         // Ideally we would have an interface, with an injected implementation, but for easiness
         // we can just pop the backstack (if it exists...)
         try {

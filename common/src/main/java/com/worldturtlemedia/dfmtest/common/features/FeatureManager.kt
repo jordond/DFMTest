@@ -8,15 +8,20 @@ import com.github.ajalt.timberkt.i
 import com.google.android.play.core.splitinstall.*
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus.*
 import com.worldturtlemedia.dfmtest.common.ktx.mutableLiveDataOf
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class FeatureManager {
 
     companion object {
         lateinit var instance: FeatureManager
             private set
+
+        @Deprecated("Experimental")
+        // TODO: This type of functionality needs to be further investigated
+        // It can be called before the [instance] is initialized.
+        fun has(feature: Feature) = instance.manager.installedFeatures.contains(feature)
 
         fun init(context: Context) = FeatureManager().also { manager ->
             instance = manager
@@ -74,7 +79,15 @@ class FeatureManager {
         splitInstallManager?.unregisterListener(listener)
     }
 
-    suspend fun install(feature: Feature) {
+    /**
+     * This function will install the module asynchronously.
+     *
+     * The coroutine will resume in the `addOnSuccessListener` HOWEVER that does not mean
+     * that the feature is installed.  It just means that the services has queued it for installing.
+     *
+     * Instead you need to listen to the updates made by [listener], which are stored in [status].
+     */
+    suspend fun installAsync(feature: Feature) {
         if (manager.installedModules.contains(feature.name)) {
             i { "Feature $feature is already installed." }
             return
@@ -85,8 +98,45 @@ class FeatureManager {
 
         return suspendCancellableCoroutine { continuation ->
             manager.startInstall(request)
-                .addOnSuccessListener { continuation.resume(Unit) }
-                .addOnFailureListener { continuation.cancel(it.cause) }
+                .addOnSuccessListener {
+                    _installed.postValue(manager.installedFeatures)
+                    continuation.resume(Unit)
+                }
+                .addOnFailureListener {
+                    continuation.resumeWithException(it.cause ?: Throwable("Install failed!"))
+                }
+        }
+    }
+
+    suspend fun install(feature: Feature): ManagerStatus {
+        if (manager.installedModules.contains(feature.name)) {
+            i { "Feature $feature is already installed." }
+            return ManagerStatus.Installed(feature)
+        }
+
+        val request = SplitInstallRequest.newBuilder().addModule(feature.name).build()
+        return suspendCancellableCoroutine { continuation ->
+            val installListener = object : SplitInstallStateUpdatedListener {
+                override fun onStateUpdate(state: SplitInstallSessionState) {
+                    when (state.status()) {
+                        INSTALLED -> {
+                            manager.unregisterListener(this)
+                            continuation.resume(ManagerStatus.Installed(feature))
+                        }
+                        FAILED -> {
+                            manager.unregisterListener(this)
+                            continuation.resume(ManagerStatus.Error(feature, state.errorCode()))
+                        }
+                        CANCELED -> {
+                            manager.unregisterListener(this)
+                            continuation.resume(ManagerStatus.Cancelled(feature))
+                        }
+                    }
+                }
+            }
+
+            manager.registerListener(installListener)
+            manager.startInstall(request)
         }
     }
 
@@ -104,7 +154,10 @@ class FeatureManager {
 
         return suspendCancellableCoroutine { continuation ->
             manager.deferredUninstall(features)
-                .addOnSuccessListener { continuation.resume(true) }
+                .addOnSuccessListener {
+                    _installed.postValue(manager.installedFeatures)
+                    continuation.resume(true)
+                }
                 .addOnFailureListener { continuation.resume(false) }
         }
     }
@@ -115,15 +168,28 @@ class FeatureManager {
     }
 }
 
-suspend inline fun <T> FeatureManager.runWithFeature(
+/**
+ * TODO
+ *
+ * This is just a quick implementation of running a block of code with a specific feature.
+ *
+ * It needs to be tweaked to handle the different states.  Right now it can only handle Installed,
+ * and Failed.  But the user could also cancel the install request.
+ */
+suspend fun <T> FeatureManager.runWithFeature(
     feature: Feature,
-    noinline onFailure: ((SplitInstallException) -> Unit)? = null,
-    onSuccess: () -> T
+    onFailure: ((Throwable) -> Unit)? = null,
+    onSuccess: suspend () -> T
 ): T? {
     try {
-        install(feature)
-        return onSuccess()
-    } catch (error: SplitInstallException) {
+        // TODO: Need to handle the different results, maybe rethink the whole inline approach.
+        return when (val result = install(feature)) {
+            is ManagerStatus.Installed -> onSuccess()
+            is ManagerStatus.Cancelled -> null
+            is ManagerStatus.Error -> throw Throwable("Failed to install: ${result.code}")
+            else -> throw IllegalArgumentException("Unsupported result: $result")
+        }
+    } catch (error: Throwable) {
         e(error) { "Unable to install $feature!" }
         onFailure?.invoke(error) ?: throw error
     }
@@ -131,9 +197,9 @@ suspend inline fun <T> FeatureManager.runWithFeature(
     return null
 }
 
-suspend inline fun <T> FeatureManager.runWithFeature(
+suspend fun <T> FeatureManager.runWithFeature(
     feature: Feature,
-    onSuccess: () -> T
+    onSuccess: suspend () -> T
 ): T = runWithFeature(feature, onFailure = { throw it }, onSuccess = onSuccess)
     ?: throw IllegalStateException("Unable to install $feature")
 

@@ -8,12 +8,17 @@ typealias Features = List<Feature>
 sealed class Feature(val name: String) {
     object AudioRaw : Feature(BuildConfig.FEATURE_MODULE_AUDIO_RAW.replace(":", ""))
     object AudioFull : Feature(BuildConfig.FEATURE_MODULE_AUDIO_FULL.replace(":", ""))
+    object Test : Feature(BuildConfig.FEATURE_MODULE_TEST.replace(":", ""))
 
     companion object {
-        val all = listOf(AudioRaw, AudioFull)
+        val available = BuildConfig.FEATURE_MODULE_NAMES.map { of(it) }
 
-        fun of(string: String) = all.find { it.name == string }
-            ?: throw IllegalArgumentException("Could not match $string to an existing module!")
+        fun of(string: String) = when(string.replace(":", "")) {
+            AudioRaw.name -> AudioRaw
+            AudioFull.name -> AudioFull
+            Test.name -> Test
+            else -> throw IllegalArgumentException("Could not match $string to an existing module!")
+        }
     }
 
     override fun toString(): String = name

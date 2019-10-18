@@ -11,24 +11,23 @@
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:elevation="0dp"
-        />
+        tools:visibility="gone" />
 
     <TextView
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:text="Dynamic Feature Modules Test!"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAudioPicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnAudioPlayer"
+        app:layout_constraintEnd_toStartOf="@+id/loadingView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadingView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -36,33 +35,78 @@
         android:id="@+id/btnAudioPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Pick Audio"
-        app:layout_constraintBottom_toTopOf="@+id/btnAudioPlayer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message" />
+        android:text="Pick Audio (Full)"
+        app:layout_constraintBottom_toTopOf="@+id/btnTestFeatureInstall"
+        app:layout_constraintEnd_toStartOf="@+id/loadingView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadingView"
+        app:layout_constraintTop_toBottomOf="@+id/btnAudioPlayer" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAudioPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play Audio"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Play Audio (Assets)"
+        app:layout_constraintBottom_toTopOf="@+id/btnAudioPicker"
+        app:layout_constraintEnd_toStartOf="@+id/loadingView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadingView"
+        app:layout_constraintTop_toBottomOf="@+id/message" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTestFeatureInstall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test feature install"
+        app:layout_constraintBottom_toTopOf="@+id/btnTestFeatureUninstall"
+        app:layout_constraintEnd_toStartOf="@+id/loadingView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadingView"
         app:layout_constraintTop_toBottomOf="@+id/btnAudioPicker" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTestFeatureUninstall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Uninstall Test Feature"
+        app:layout_constraintBottom_toTopOf="@+id/btnToggleLoading"
+        app:layout_constraintEnd_toStartOf="@+id/loadingView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadingView"
+        app:layout_constraintTop_toBottomOf="@+id/btnTestFeatureInstall" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnToggleLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Debug: Loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/txtAvailableFeatures"
+        app:layout_constraintEnd_toStartOf="@+id/loadingView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loadingView"
+        app:layout_constraintTop_toBottomOf="@+id/btnTestFeatureUninstall" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnInstallAudioAssets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Install Assets"
+        app:layout_constraintBottom_toTopOf="@+id/txtAvailableFeatures"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAudioPlayer"
-        app:layout_constraintVertical_bias="0.36" />
+        app:layout_constraintEnd_toStartOf="@id/btnUnInstallAudioAssets"
+        app:layout_constraintTop_toBottomOf="@+id/btnToggleLoading" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUnInstallAudioAssets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove Assets"
+        app:layout_constraintBottom_toTopOf="@+id/txtAvailableFeatures"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/btnInstallAudioAssets"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnToggleLoading" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtAvailableFeatures"
@@ -71,9 +115,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/available_features"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/txtLoadedFeaturesLabel"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtLoadedFeaturesLabel"

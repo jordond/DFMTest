@@ -1,5 +1,6 @@
 package com.worldturtlemedia.dfmtest
 
+import android.util.Log
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import timber.log.Timber
 
@@ -8,7 +9,13 @@ class DFMTestApp : SplitCompatApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        // Ideally you wouldn't plant this in a release build
-        Timber.plant(Timber.DebugTree())
+        Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else tree)
+    }
+
+    // Apparently the DebugTree won't work in release, so create a basic one.
+    private val tree = object: Timber.Tree() {
+        override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+            Log.println(priority, tag, t?.let { "$message\n$it" } ?: message)
+        }
     }
 }

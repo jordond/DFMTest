@@ -17,6 +17,7 @@ sealed class ManagerStatus {
     ) : ManagerStatus()
 
     data class Installed(val feature: Feature) : ManagerStatus()
+    data class Cancelled(val feature: Feature) : ManagerStatus()
     data class Error(val feature: Feature, val code: Int) : ManagerStatus()
 }
 

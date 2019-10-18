@@ -52,7 +52,7 @@ class AudioPickerFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun installFailed(error: SplitInstallException) {
+    private fun installFailed(error: Throwable) {
         fab.isEnabled = true
         txtSelected.text = "Unable to load audio list!\n${error.message}"
     }

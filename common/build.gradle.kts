@@ -20,6 +20,7 @@ android {
         buildConfigField("FEATURE_MODULE_NAMES", Modules.dynamic.toSet())
         buildConfigField("FEATURE_MODULE_AUDIO_RAW", Modules.audioRaw)
         buildConfigField("FEATURE_MODULE_AUDIO_FULL", Modules.audioFull)
+        buildConfigField("FEATURE_MODULE_TEST", Modules.testFeature)
     }
 
     compileOptions {

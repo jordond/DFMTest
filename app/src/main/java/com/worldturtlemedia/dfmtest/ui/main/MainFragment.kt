@@ -1,14 +1,14 @@
 package com.worldturtlemedia.dfmtest.ui.main
 
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.base.navigate
-import com.worldturtlemedia.dfmtest.common.features.Feature
-import com.worldturtlemedia.dfmtest.common.features.FeatureManagerModel
-import com.worldturtlemedia.dfmtest.common.features.display
+import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
+import com.worldturtlemedia.dfmtest.common.features.*
 import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.view.LoadingProgress
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -23,12 +23,48 @@ class MainFragment : BaseFragment() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun setupViews() {
+        btnAudioPicker.visibleOrGone = Feature.available.contains(Feature.AudioFull)
+
         btnAudioPicker.setOnClickListener {
             navigate(MainFragmentDirections.toAudioPicker())
         }
 
         btnAudioPlayer.setOnClickListener {
             navigate(MainFragmentDirections.toAudioPlayer())
+        }
+
+        btnTestFeatureInstall.setOnClickListener {
+            owner.lifecycleScope.launch {
+                FeatureManager.instance.runWithFeature(
+                    feature = Feature.Test,
+                    onFailure = { makeToast("Install failed") },
+                    onSuccess = { makeToast("Install success!") }
+                )
+            }
+        }
+
+        btnTestFeatureUninstall.setOnClickListener {
+            owner.lifecycleScope.launch {
+                val uninstalled = FeatureManager.instance.uninstall(Feature.Test)
+                makeToast(if (uninstalled) "Uninstalled!" else "Failed...")
+            }
+        }
+
+        btnInstallAudioAssets.setOnClickListener {
+            owner.lifecycleScope.launch {
+                FeatureManager.instance.runWithFeature(
+                    feature = Feature.AudioRaw,
+                    onFailure = { makeToast("Install failed") },
+                    onSuccess = { makeToast("Install started!") }
+                )
+            }
+        }
+
+        btnUnInstallAudioAssets.setOnClickListener {
+            owner.lifecycleScope.launch {
+                val uninstalled = FeatureManager.instance.uninstall(Feature.AudioRaw)
+                makeToast(if (uninstalled) "Uninstalled Assets!" else "Failed...")
+            }
         }
 
         btnToggleLoading.setOnClickListener {
@@ -43,7 +79,7 @@ class MainFragment : BaseFragment() {
             }
         }
 
-        txtAvailableFeatures.text = getString(R.string.available_features, Feature.all.display)
+        txtAvailableFeatures.text = getString(R.string.available_features, Feature.available.display)
         txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, getString(R.string.none))
     }
 
@@ -52,5 +88,9 @@ class MainFragment : BaseFragment() {
             val string = if (features.isEmpty()) getString(R.string.none) else features.display
             txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, string)
         }
+    }
+
+    private fun makeToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 }
