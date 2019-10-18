@@ -4,7 +4,7 @@ object App {
 
     private const val major: Int = 1
     private const val minor: Int = 0
-    private const val patch: Int = 0
+    private const val patch: Int = 1
     private const val suffix: String = "-dev"
 
     const val rootName: String = "DFM Test"
