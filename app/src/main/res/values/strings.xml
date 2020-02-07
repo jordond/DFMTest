@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DFM Test</string>
+    <string name="app_name">Dev Playground</string>
     <string name="now_playing">Currently playing: %1$s</string>
     <string name="audio_not_selected">No audio file selected!</string>
     <string name="none">none</string>

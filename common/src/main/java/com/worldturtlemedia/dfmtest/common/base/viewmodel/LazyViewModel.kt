@@ -1,4 +1,4 @@
-package com.worldturtlemedia.dfmtest.common.viewmodel
+package com.worldturtlemedia.dfmtest.common.base.viewmodel
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

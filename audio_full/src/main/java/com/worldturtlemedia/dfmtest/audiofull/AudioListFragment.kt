@@ -10,11 +10,10 @@ import com.worldturtlemedia.dfmtest.audiobase.selection.SelectedAudioOptionModel
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.ktx.cast
 import com.worldturtlemedia.dfmtest.common.ktx.observe
-import com.worldturtlemedia.dfmtest.common.util.groupieAdapter
-import com.worldturtlemedia.dfmtest.common.viewmodel.sharedViewModels
-import com.worldturtlemedia.dfmtest.common.viewmodel.viewModels
+import com.worldturtlemedia.dfmtest.common.ui.groupieAdapter
+import com.worldturtlemedia.dfmtest.common.base.viewmodel.sharedViewModels
+import com.worldturtlemedia.dfmtest.common.base.viewmodel.viewModels
 import kotlinx.android.synthetic.main.audio_list_fragment.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AudioListFragment : BaseFragment() {
@@ -24,14 +23,15 @@ class AudioListFragment : BaseFragment() {
     private val viewModel: AudioListModel by viewModels()
     private val selectedOptionModel: SelectedAudioOptionModel by sharedViewModels()
 
-    private val listAdapter = groupieAdapter {
-        setOnItemClickListener { item, _ ->
-            val option = item.cast<AudioListItem>() ?: return@setOnItemClickListener
+    private val listAdapter =
+        groupieAdapter {
+            setOnItemClickListener { item, _ ->
+                val option = item.cast<AudioListItem>() ?: return@setOnItemClickListener
 
-            selectedOptionModel.setSelected(option.audioOption)
-            navigateBack()
+                selectedOptionModel.setSelected(option.audioOption)
+                navigateBack()
+            }
         }
-    }
 
     override fun setupViews() {
         with(rvAudio) {

@@ -2,10 +2,10 @@ package com.worldturtlemedia.dfmtest.audiofull
 
 import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
-import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.ktx.cast
 import com.worldturtlemedia.dfmtest.common.ktx.color
 import com.worldturtlemedia.dfmtest.common.ktx.odd
+import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.audio_list_item.*
@@ -31,14 +31,11 @@ data class AudioListItem(
 
             txtLabel.text = context.getString(audioOption.label)
 
-            with(imgAction) {
-                visibleOrGone = audioOption.rawRes != null
-                setOnClickListener { onMediaToggle(audioOption) }
-                imgAction.setImageResource(
-                    if (isPlaying) RApp.drawable.ic_stop else RApp.drawable.ic_play
-                )
-
-            }
+            imgAction.visibleOrGone = audioOption.rawRes != null
+            imgAction.setOnClickListener { onMediaToggle(audioOption) }
+            imgAction.setImageResource(
+                if (isPlaying) RApp.drawable.ic_stop else RApp.drawable.ic_play
+            )
         }
     }
 

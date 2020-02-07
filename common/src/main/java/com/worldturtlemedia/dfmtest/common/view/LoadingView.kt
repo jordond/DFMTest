@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.worldturtlemedia.dfmtest.common.R
-import com.worldturtlemedia.dfmtest.common.bindingadapters.visible
-import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.ktx.bind
 import com.worldturtlemedia.dfmtest.common.ktx.dp
+import com.worldturtlemedia.dfmtest.common.ktx.visible
+import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
 
 class LoadingView @JvmOverloads constructor(
     context: Context,

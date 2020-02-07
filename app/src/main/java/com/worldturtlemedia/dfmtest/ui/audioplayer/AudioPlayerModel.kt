@@ -1,20 +1,14 @@
 package com.worldturtlemedia.dfmtest.ui.audioplayer
 
 import android.app.Activity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.worldturtlemedia.dfmtest.audiobase.assets.AudioAssetManager
 import com.worldturtlemedia.dfmtest.audiobase.assets.GetAudioFilesUseCase
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioFileOption
-import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.audiobase.player.AudioPlayerUseCase
-import com.worldturtlemedia.dfmtest.audiobase.player.PlayerState
-import com.worldturtlemedia.dfmtest.common.viewmodel.State
-import com.worldturtlemedia.dfmtest.common.viewmodel.StateViewModel
+import com.worldturtlemedia.dfmtest.common.base.viewmodel.State
+import com.worldturtlemedia.dfmtest.common.base.viewmodel.StateViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
 
@@ -24,14 +18,6 @@ class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
 
     // TODO: Currently the AudioPlayer is only setup to handle AudioOptions (with RAW assets)
     private val audioPlayerUseCase = AudioPlayerUseCase()
-
-    init {
-        addStateSource(audioPlayerUseCase.playerState) { state, status ->
-            // TODO: This is how the play state would be updated, if the player was working
-//            state.copy(isPlaying = status is PlayerState.Playing)
-            state
-        }
-    }
 
     fun getAudioFiles(activity: Activity) = viewModelScope.launch {
         updateState { copy(isLoadingAssets = true) }

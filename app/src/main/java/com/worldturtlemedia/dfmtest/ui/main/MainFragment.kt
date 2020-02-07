@@ -7,9 +7,9 @@ import androidx.lifecycle.lifecycleScope
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 import com.worldturtlemedia.dfmtest.common.base.navigate
-import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.features.*
 import com.worldturtlemedia.dfmtest.common.ktx.observe
+import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.view.LoadingProgress
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.delay

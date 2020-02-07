@@ -7,11 +7,11 @@ import androidx.navigation.fragment.findNavController
 import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
-import com.worldturtlemedia.dfmtest.common.bindingadapters.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.features.FeatureManagerModel
 import com.worldturtlemedia.dfmtest.common.ktx.cast
 import com.worldturtlemedia.dfmtest.common.ktx.observe
-import com.worldturtlemedia.dfmtest.common.viewmodel.observeProperty
+import com.worldturtlemedia.dfmtest.common.ktx.observeProperty
+import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
 import com.worldturtlemedia.dfmtest.ui.main.MainActivity
 import kotlinx.android.synthetic.main.audio_player_fragment.*
 import kotlinx.coroutines.launch

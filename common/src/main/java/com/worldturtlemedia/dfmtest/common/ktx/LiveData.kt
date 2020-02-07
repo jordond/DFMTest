@@ -1,6 +1,7 @@
 package com.worldturtlemedia.dfmtest.common.ktx
 
 import androidx.lifecycle.*
+import com.worldturtlemedia.dfmtest.common.ui.SingleEvent
 
 fun <T> liveDataOf(data: T? = null): LiveData<T> =
     object : LiveData<T>() {
@@ -17,4 +18,11 @@ fun <T> mediatorLiveDataOf(data: T? = null): MediatorLiveData<T> =
 
 inline fun <T> LiveData<T>.observe(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
     observe(owner, Observer { it?.let(observer) })
+}
+
+fun <T> LiveData<SingleEvent<T>>.observeUnConsumed(
+    owner: LifecycleOwner,
+    onConsume: (value: T) -> Unit
+) {
+    observe(owner, Observer { event -> event?.consume(onConsume) })
 }

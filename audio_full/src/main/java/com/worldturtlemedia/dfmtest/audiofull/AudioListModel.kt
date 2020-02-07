@@ -5,17 +5,17 @@ import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.audiobase.player.AudioPlayerUseCase
 import com.worldturtlemedia.dfmtest.audiobase.models.AudioOption
 import com.worldturtlemedia.dfmtest.audiobase.player.PlayerState
-import com.worldturtlemedia.dfmtest.common.viewmodel.State
-import com.worldturtlemedia.dfmtest.common.viewmodel.StateViewModel
+import com.worldturtlemedia.dfmtest.common.base.viewmodel.State
+import com.worldturtlemedia.dfmtest.common.base.viewmodel.StateViewModel
 
 class AudioListModel : StateViewModel<AudioListState>(AudioListState()) {
 
     private val audioPlayer: AudioPlayerUseCase = AudioPlayerUseCase()
 
     init {
-        addStateSource(audioPlayer.playerState) { state, status ->
+        addStateSource(audioPlayer.playerState) { status ->
             i { "Player state: $status" }
-            state.copy(status = status)
+            copy(status = status)
         }
     }
 

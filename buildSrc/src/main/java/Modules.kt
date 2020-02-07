@@ -11,7 +11,7 @@ object Modules {
     const val audioBase = ":audio_base"
 
     val dynamic = listOf(
-        /* audioFull, */
+        audioFull,
         audioRaw,
         testFeature
     )
@@ -20,7 +20,7 @@ object Modules {
         app,
         common,
         audioBase,
-        /* audioFull, */
+        audioFull,
         audioRaw,
         testFeature
     )

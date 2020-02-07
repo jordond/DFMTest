@@ -1,4 +1,4 @@
-package com.worldturtlemedia.dfmtest.common.util
+package com.worldturtlemedia.dfmtest.common.ui
 
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
