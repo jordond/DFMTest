@@ -44,8 +44,8 @@ dependencies {
     implementation(project(Modules.audioBase))
 
     implementation(Libs.kotlin)
-    implementation(Libs.coroutinesCore)
-    implementation(Libs.coroutinesAndroid)
+    implementation(Libs.kotlin_coroutines_core)
+    implementation(Libs.kotlin_coroutines_android)
 
     /* DFM */
     implementation(Libs.playCore)
