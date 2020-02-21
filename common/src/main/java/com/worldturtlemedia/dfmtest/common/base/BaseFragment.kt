@@ -36,6 +36,6 @@ abstract class BaseFragment : Fragment() {
     protected open fun subscribeViewModel() {}
 }
 
-fun BaseFragment.navigate(directions: NavDirections) {
+fun Fragment.navigate(directions: NavDirections) {
     findNavController().navigate(directions)
 }

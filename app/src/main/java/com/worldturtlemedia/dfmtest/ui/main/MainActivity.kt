@@ -10,7 +10,6 @@ import com.worldturtlemedia.dfmtest.common.features.FeatureManagerModel
 import com.worldturtlemedia.dfmtest.common.features.ManagerStatus.*
 import com.worldturtlemedia.dfmtest.common.features.display
 import kotlinx.android.synthetic.main.main_activity.loadingView
-import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainActivity : BaseActivity() {
 
@@ -30,10 +29,6 @@ class MainActivity : BaseActivity() {
                 }
                 else -> loadingView.setLoading(false)
             }
-        }
-
-        featureMangerModel.manager.installedFeatures.observe(this) { installed ->
-            txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, installed.display)
         }
     }
 

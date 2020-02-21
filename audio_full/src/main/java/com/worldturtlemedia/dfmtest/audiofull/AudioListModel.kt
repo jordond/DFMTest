@@ -30,13 +30,13 @@ class AudioListModel : StateViewModel<AudioListState>(AudioListState()) {
     }
 
     private fun play(context: Context, audioOption: AudioOption) {
-        updateState { copy(selected = audioOption) }
+        setState { copy(selected = audioOption) }
         audioPlayer.play(context, audioOption)
     }
 
     private fun stop() {
         audioPlayer.stop()
-        updateState { copy(selected = null) }
+        setState { copy(selected = null) }
     }
 
     override fun onCleared() {

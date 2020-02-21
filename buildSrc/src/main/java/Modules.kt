@@ -4,6 +4,8 @@ object Modules {
     const val app = ":app"
     const val common = ":common"
 
+    const val googlePhotos = ":photos"
+
     const val audioFull = ":audio_full"
     const val audioRaw = ":audio_raw"
     const val testFeature = ":test_feature"
@@ -22,6 +24,7 @@ object Modules {
         audioBase,
         audioFull,
         audioRaw,
-        testFeature
+        testFeature,
+        googlePhotos
     )
 }

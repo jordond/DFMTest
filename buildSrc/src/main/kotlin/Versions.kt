@@ -24,11 +24,15 @@ object Versions {
 
     const val com_google_android_play_core_ktx: String = "1.6.5"
 
-    const val com_android_tools_build_gradle: String = "3.5.3"
+    const val com_android_tools_build_gradle: String = "3.6.0-rc03"
 
     const val androidx_core_core_ktx: String = "1.2.0"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
+
+    const val google_photos_library_client: String = "1.4.0"
+
+    const val play_services_auth: String = "17.0.0"
 
     const val constraintlayout: String = "1.1.3"
 
@@ -38,7 +42,9 @@ object Versions {
 
     const val recyclerview: String = "1.1.0"
 
-    const val lint_gradle: String = "26.5.3"
+    const val lint_gradle: String = "26.6.0-rc03"
+
+    const val viewbinding: String = "3.6.0-rc03"
 
     const val appcompat: String = "1.1.0"
 
@@ -46,10 +52,10 @@ object Versions {
 
     const val timberkt: String = "1.5.1"
 
-    const val aapt2: String = "3.5.3-5435860"
+    const val aapt2: String = "3.6.0-rc03-6040484"
 
     /**
-     * Current version: "5.4.1"
+     * Current version: "5.6.4"
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */

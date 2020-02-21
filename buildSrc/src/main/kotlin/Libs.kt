@@ -124,6 +124,16 @@ object Libs {
             Versions.de_fayard_buildsrcversions_gradle_plugin
 
     /**
+     * http://developers.google.com/photos
+     */
+    const val google_photos_library_client: String =
+            "com.google.photos.library:google-photos-library-client:" +
+            Versions.google_photos_library_client
+
+    const val play_services_auth: String = "com.google.android.gms:play-services-auth:" +
+            Versions.play_services_auth
+
+    /**
      * http://tools.android.com
      */
     const val constraintlayout: String = "androidx.constraintlayout:constraintlayout:" +
@@ -148,6 +158,8 @@ object Libs {
      * https://developer.android.com/studio
      */
     const val lint_gradle: String = "com.android.tools.lint:lint-gradle:" + Versions.lint_gradle
+
+    const val viewbinding: String = "androidx.databinding:viewbinding:" + Versions.viewbinding
 
     /**
      * https://developer.android.com/jetpack/androidx

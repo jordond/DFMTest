@@ -3,13 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/mainMenuFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.worldturtlemedia.dfmtest.ui.main.MainFragment"
+        android:id="@+id/mainMenuFragment"
+        android:name="com.worldturtlemedia.dfmtest.ui.main.MainMenuFragment"
+        tools:layout="@layout/fragment_main_menu"
+        android:label="Main Menu" >
+        <action
+            android:id="@+id/toDFMMenu"
+            app:destination="@id/dfmMenu" app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/toGooglePhotos"
+            app:destination="@id/nav_graph" app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/dfmMenu"
+        android:name="com.worldturtlemedia.dfmtest.ui.main.DFMMenuFragment"
         android:label="Home"
-        tools:layout="@layout/main_fragment">
+        tools:layout="@layout/fragment_dfm_menu">
         <action
             android:id="@+id/toAudioPicker"
             app:destination="@id/audioPickerFragment"
@@ -42,4 +61,6 @@
         tools:layout="@layout/audio_player_fragment"
         />
     <include app:graph="@navigation/nav_audio" />
+    <include app:graph="@navigation/nav_google_photos" />
+
 </navigation>

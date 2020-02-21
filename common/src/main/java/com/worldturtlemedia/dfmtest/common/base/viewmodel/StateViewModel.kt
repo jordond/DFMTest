@@ -1,13 +1,11 @@
 package com.worldturtlemedia.dfmtest.common.base.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.ajalt.timberkt.i
 import com.worldturtlemedia.dfmtest.common.ktx.mediatorLiveDataOf
-import com.worldturtlemedia.dfmtest.common.ktx.simpleName
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
@@ -16,11 +14,6 @@ import kotlinx.coroutines.channels.consumeEach
 interface State
 
 abstract class StateViewModel<S : State>(initialState: S) : ViewModel() {
-
-    companion object {
-
-        val TAG = StateViewModel.simpleName
-    }
 
     /**
      * Create a Single source of truth for the state by hiding the mutable LiveData.
@@ -34,7 +27,7 @@ abstract class StateViewModel<S : State>(initialState: S) : ViewModel() {
      * null, because we pass an initial state in the constructor.
      */
     protected val currentState: S
-        get() = _state.value!!
+        get() = state.value!!
 
     /**
      * Create an [actor] that will consume each [Update], invoke the lambda, then update the state
@@ -47,7 +40,7 @@ abstract class StateViewModel<S : State>(initialState: S) : ViewModel() {
         channel.consumeEach { update ->
             update.invoke(currentState)
                 ?.let { _state.value = it }
-                ?: Log.d(TAG, "Returned null, not updating state")
+                ?: i { "Returned null, not updating state" }
         }
     }
 
@@ -62,7 +55,7 @@ abstract class StateViewModel<S : State>(initialState: S) : ViewModel() {
      */
     protected fun <T> addStateSource(source: LiveData<T>, onChange: S.(data: T) -> S?) {
         _state.addSource(source) { data ->
-            updateState { onChange(currentState, data) }
+            setState { onChange(currentState, data) }
         }
     }
 
@@ -83,7 +76,7 @@ abstract class StateViewModel<S : State>(initialState: S) : ViewModel() {
      * @param[block] A lambda scoped to the current [State].
      */
     @UseExperimental(ExperimentalCoroutinesApi::class)
-    protected fun updateState(block: suspend S.() -> S?) {
+    protected fun setState(block: Update<S>) {
         if (updateStateActor.isClosedForSend) {
             i { "State actor is closed, cannot offer update." }
         } else {
@@ -94,4 +87,4 @@ abstract class StateViewModel<S : State>(initialState: S) : ViewModel() {
     protected fun noUpdate() = null
 }
 
-private typealias Update<S> = suspend S.() -> S?
+typealias Update<S> = suspend S.() -> S?

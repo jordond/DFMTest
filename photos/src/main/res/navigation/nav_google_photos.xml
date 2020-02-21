@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.worldturtlemedia.photos.menu.MenuFragment"
+        android:label="Google Photos"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/toAlbums"
+            app:destination="@id/albumsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/toDatePicker"
+            app:destination="@id/datePickerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumsFragment"
+        android:name="com.worldturtlemedia.photos.album.AlbumsFragment"
+        android:label="Albums"
+        tools:layout="@layout/fragment_albums">
+        <action
+            android:id="@+id/toSelectionList"
+            app:destination="@id/albumSelectionListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/datePickerFragment"
+        android:name="com.worldturtlemedia.photos.date.DatePickerFragment"
+        android:label="Date Picker"
+        tools:layout="@layout/fragment_date_picker">
+        <action
+            android:id="@+id/toSelectionList"
+            app:destination="@id/dateSelectionListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumSelectionListFragment"
+        android:name="com.worldturtlemedia.photos.album.AlbumSelectionListFragment"
+        android:label="Selected Album"
+        tools:layout="@layout/fragment_albums_selection_list" />
+    <fragment
+        android:id="@+id/dateSelectionListFragment"
+        android:name="com.worldturtlemedia.photos.date.DateSelectionListFragment"
+        android:label="Selected Date(s)"
+        tools:layout="@layout/fragment_date_selection_list" />
+</navigation>

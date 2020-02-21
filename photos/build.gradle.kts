@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.dsl.DefaultConfig
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 plugins {
@@ -13,14 +12,6 @@ android {
     defaultConfig {
         minSdkVersion(App.minSdk)
         targetSdkVersion(App.targetSdk)
-
-        versionCode = App.code
-        versionName = App.name
-
-        buildConfigField("FEATURE_MODULE_NAMES", Modules.dynamic.toSet())
-        buildConfigField("FEATURE_MODULE_AUDIO_RAW", Modules.audioRaw)
-        buildConfigField("FEATURE_MODULE_AUDIO_FULL", Modules.audioFull)
-        buildConfigField("FEATURE_MODULE_TEST", Modules.testFeature)
     }
 
     compileOptions {
@@ -35,43 +26,35 @@ android {
     viewBinding.isEnabled = true
 }
 
+androidExtensions {
+    isExperimental = true
+}
+
 dependencies {
+    implementation(project(Modules.common))
+
     implementation(Libs.kotlin_stdlib_jdk7)
     implementation(Libs.kotlinx_coroutines_core)
     implementation(Libs.kotlinx_coroutines_android)
 
-    /* DFM */
-    implementation(Libs.com_google_android_play_core_ktx)
-
     implementation(Libs.navigation_fragment_ktx)
     implementation(Libs.navigation_ui_ktx)
     implementation(Libs.appcompat)
-
-    /* DFM */
-    implementation(Libs.com_google_android_play_core_ktx)
-
     implementation(Libs.androidx_core_core_ktx)
     implementation(Libs.constraintlayout)
     implementation(Libs.lifecycle_extensions)
     implementation(Libs.lifecycle_livedata_ktx)
     implementation(Libs.lifecycle_viewmodel_ktx)
-    implementation(Libs.lifecycle_viewmodel_savedstate)
-    implementation(Libs.recyclerview)
-    implementation(Libs.activity_ktx)
-    implementation(Libs.fragment_ktx)
-
+    implementation(Libs.lifecycle_runtime_ktx)
+    implementation(Libs.material)
     implementation(Libs.groupie)
     implementation(Libs.groupie_kotlin_android_extensions)
+    implementation("io.coil-kt:coil:0.9.5")
+    implementation("com.github.florent37:inline-activity-result-kotlin:1.0.3")
+    implementation("com.mikhaellopez:circularimageview:4.2.0")
+
+    implementation(Libs.google_photos_library_client)
+    implementation(Libs.play_services_auth)
 
     implementation(Libs.timberkt)
-}
-
-fun DefaultConfig.buildConfigField(name: String, value: String) {
-    buildConfigField("String", name, "\"$value\"")
-}
-
-fun DefaultConfig.buildConfigField(name: String, value: Set<String>) {
-    // Generates String that holds Java String Array code
-    val strValue = value.joinToString(prefix = "{", separator = ",", postfix = "}", transform = { "\"$it\"" })
-    buildConfigField("String[]", name, strValue)
 }

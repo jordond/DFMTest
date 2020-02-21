@@ -29,6 +29,14 @@ var View.gone
         visibility = if (value) View.GONE else View.VISIBLE
     }
 
+fun View.onClick(block: () -> Unit) {
+    setOnClickListener { block() }
+}
+
+fun View.onLongClick(block: () -> Boolean) {
+    setOnLongClickListener { block() }
+}
+
 fun <T : View> Activity.bind(@IdRes res: Int): Lazy<T> = unsafeLazy { findViewById<T>(res) }
 
 fun <T : View> Fragment.bind(@IdRes res: Int): Lazy<T> = unsafeLazy {

@@ -1,0 +1,4 @@
+<resources>
+    <string name="title_activity_google_photos">GooglePhotosActivity</string>
+    <string name="google_auth_email_display">Connected to Google Photos as %1s</string>
+</resources>

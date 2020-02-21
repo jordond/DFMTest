@@ -20,10 +20,10 @@ class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
     private val audioPlayerUseCase = AudioPlayerUseCase()
 
     fun getAudioFiles(activity: Activity) = viewModelScope.launch {
-        updateState { copy(isLoadingAssets = true) }
+        setState { copy(isLoadingAssets = true) }
 
         val list = getAudioFilesUseCase.execute(activity)
-        updateState {
+        setState {
             copy(
                 isLoadingAssets = false,
                 audioFiles = list,
@@ -38,16 +38,16 @@ class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
         // TODO: Play or stop the music
         // Right now we just manually update `isPlaying` but ideally it should be handled above
 
-        updateState { copy(isPlaying = !isPlaying) }
+        setState { copy(isPlaying = !isPlaying) }
     }
 
     fun next() {
         val newIndex = currentState.selectedAudio + 1
         if (newIndex > currentState.audioFiles.size - 1) {
             // TODO: stop the music
-            updateState { copy(isPlaying = false) }
+            setState { copy(isPlaying = false) }
         } else {
-            updateState { copy(selectedAudio = selectedAudio + 1) }
+            setState { copy(selectedAudio = selectedAudio + 1) }
             // TODO: Play the file
         }
     }
@@ -56,9 +56,9 @@ class AudioPlayerModel : StateViewModel<AudioPlayerState>(AudioPlayerState()) {
         val newIndex = currentState.selectedAudio - 1
         if (newIndex < 0) {
             // TODO: Stop the player
-            updateState { copy(isPlaying = false) }
+            setState { copy(isPlaying = false) }
         } else {
-            updateState { copy(selectedAudio = selectedAudio - 1) }
+            setState { copy(selectedAudio = selectedAudio - 1) }
         }
     }
 

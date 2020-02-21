@@ -2,7 +2,6 @@ package com.worldturtlemedia.dfmtest.ui.main
 
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment
@@ -11,26 +10,25 @@ import com.worldturtlemedia.dfmtest.common.features.*
 import com.worldturtlemedia.dfmtest.common.ktx.observe
 import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
 import com.worldturtlemedia.dfmtest.common.view.LoadingProgress
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.fragment_dfm_menu.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainFragment : BaseFragment() {
+class DFMMenuFragment : BaseFragment() {
 
-    override fun layout(): Int = R.layout.main_fragment
+    override fun layout(): Int = R.layout.fragment_dfm_menu
 
     private val featureManagerModel: FeatureManagerModel by activityViewModels()
-    private val viewModel: MainViewModel by viewModels()
 
     override fun setupViews() {
         btnAudioPicker.visibleOrGone = Feature.available.contains(Feature.AudioFull)
 
         btnAudioPicker.setOnClickListener {
-            navigate(MainFragmentDirections.toAudioPicker())
+            navigate(DFMMenuFragmentDirections.toAudioPicker())
         }
 
         btnAudioPlayer.setOnClickListener {
-            navigate(MainFragmentDirections.toAudioPlayer())
+            navigate(DFMMenuFragmentDirections.toAudioPlayer())
         }
 
         btnTestFeatureInstall.setOnClickListener {
