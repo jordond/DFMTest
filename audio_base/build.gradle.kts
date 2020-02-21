@@ -30,13 +30,14 @@ android {
 dependencies {
     implementation(project(Modules.common))
 
-    implementation(Libs.kotlin)
-    implementation(Libs.coroutinesCore)
-    implementation(Libs.coroutinesAndroid)
+    implementation(Libs.kotlin_stdlib_jdk7)
+    implementation(Libs.kotlinx_coroutines_core)
+    implementation(Libs.kotlinx_coroutines_android)
 
-    implementation(Libs.lifecycleLiveData)
-    implementation(Libs.lifecycleExtensions)
-    implementation(Libs.lifecycleViewModel)
+    implementation(Libs.lifecycle_extensions)
+    implementation(Libs.lifecycle_livedata_ktx)
+    implementation(Libs.lifecycle_viewmodel_ktx)
+    implementation(Libs.lifecycle_runtime_ktx)
 
     implementation(Libs.timberkt)
 }

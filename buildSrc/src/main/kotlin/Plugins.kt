@@ -1,10 +1,3 @@
-object RootPlugins {
-    const val androidGradle = "com.android.tools.build:gradle:${Versions.gradle}"
-    const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-
-    const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
-}
-
 object BuildPlugins {
 
     const val library = "com.android.library"

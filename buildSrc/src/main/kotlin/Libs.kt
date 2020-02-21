@@ -88,6 +88,12 @@ object Libs {
             Versions.androidx_lifecycle
 
     /**
+     * https://developer.android.com/topic/libraries/architecture/index.html
+     */
+    const val lifecycle_viewmodel_savedstate: String =
+            "androidx.lifecycle:lifecycle-viewmodel-savedstate:" + Versions.androidx_lifecycle
+
+    /**
      * https://github.com/lisawray/groupie
      */
     const val groupie: String = "com.xwray:groupie:" + Versions.com_xwray
@@ -98,14 +104,20 @@ object Libs {
     const val groupie_kotlin_android_extensions: String =
             "com.xwray:groupie-kotlin-android-extensions:" + Versions.com_xwray
 
+    const val com_google_android_play_core_ktx: String = "com.google.android.play:core-ktx:" +
+            Versions.com_google_android_play_core_ktx
+
     /**
      * https://developer.android.com/studio
      */
     const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
             Versions.com_android_tools_build_gradle
 
-    const val com_google_android_play_core: String = "com.google.android.play:core:" +
-            Versions.com_google_android_play_core
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val androidx_core_core_ktx: String = "androidx.core:core-ktx:" +
+            Versions.androidx_core_core_ktx
 
     const val de_fayard_buildsrcversions_gradle_plugin: String =
             "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
@@ -118,6 +130,21 @@ object Libs {
             Versions.constraintlayout
 
     /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val activity_ktx: String = "androidx.activity:activity-ktx:" + Versions.activity_ktx
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val fragment_ktx: String = "androidx.fragment:fragment-ktx:" + Versions.fragment_ktx
+
+    /**
+     * https://developer.android.com/jetpack/androidx
+     */
+    const val recyclerview: String = "androidx.recyclerview:recyclerview:" + Versions.recyclerview
+
+    /**
      * https://developer.android.com/studio
      */
     const val lint_gradle: String = "com.android.tools.lint:lint-gradle:" + Versions.lint_gradle
@@ -126,11 +153,6 @@ object Libs {
      * https://developer.android.com/jetpack/androidx
      */
     const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
-
-    /**
-     * https://developer.android.com/jetpack/androidx
-     */
-    const val core_ktx: String = "androidx.core:core-ktx:" + Versions.core_ktx
 
     /**
      * http://developer.android.com/tools/extras/support-library.html

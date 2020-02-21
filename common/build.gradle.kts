@@ -34,24 +34,32 @@ android {
 }
 
 dependencies {
-    implementation(Libs.kotlin)
-    implementation(Libs.coroutinesCore)
-    implementation(Libs.coroutinesAndroid)
+    implementation(Libs.kotlin_stdlib_jdk7)
+    implementation(Libs.kotlinx_coroutines_core)
+    implementation(Libs.kotlinx_coroutines_android)
 
     /* DFM */
-    implementation(Libs.playCore)
+    implementation(Libs.com_google_android_play_core_ktx)
 
-    implementation(Libs.navigationFragment)
-    implementation(Libs.navigationUi)
+    implementation(Libs.navigation_fragment_ktx)
+    implementation(Libs.navigation_ui_ktx)
     implementation(Libs.appcompat)
-    implementation(Libs.coreKtx)
+
+    /* DFM */
+    implementation(Libs.com_google_android_play_core_ktx)
+
+    implementation(Libs.androidx_core_core_ktx)
     implementation(Libs.constraintlayout)
-    implementation(Libs.lifecycleExtensions)
-    implementation(Libs.lifecycleLiveData)
-    implementation(Libs.lifecycleViewModel)
+    implementation(Libs.lifecycle_extensions)
+    implementation(Libs.lifecycle_livedata_ktx)
+    implementation(Libs.lifecycle_viewmodel_ktx)
+    implementation(Libs.lifecycle_viewmodel_savedstate)
+    implementation(Libs.recyclerview)
+    implementation(Libs.activity_ktx)
+    implementation(Libs.fragment_ktx)
 
     implementation(Libs.groupie)
-    implementation(Libs.groupieAndroidExtensions)
+    implementation(Libs.groupie_kotlin_android_extensions)
 
     implementation(Libs.timberkt)
 }

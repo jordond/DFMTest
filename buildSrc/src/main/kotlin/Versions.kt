@@ -12,42 +12,48 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val org_jetbrains_kotlinx_kotlinx_coroutines: String = "1.3.2" // available: "1.3.3"
+    const val org_jetbrains_kotlinx_kotlinx_coroutines: String = "1.3.3"
 
-    const val org_jetbrains_kotlin: String = "1.3.50" // available: "1.3.61"
+    const val org_jetbrains_kotlin: String = "1.3.61"
 
-    const val androidx_navigation: String = "2.1.0" // available: "2.2.1"
+    const val androidx_navigation: String = "2.2.1"
 
-    const val androidx_lifecycle: String = "2.2.0-alpha05" // available: "2.2.0"
+    const val androidx_lifecycle: String = "2.2.0"
 
-    const val com_xwray: String = "2.6.0" // available: "2.7.2"
+    const val com_xwray: String = "2.7.2"
 
-    const val com_android_tools_build_gradle: String = "3.5.1" // available: "3.5.3"
+    const val com_google_android_play_core_ktx: String = "1.6.5"
 
-    const val com_google_android_play_core: String = "1.6.3" // available: "1.6.4"
+    const val com_android_tools_build_gradle: String = "3.5.3"
+
+    const val androidx_core_core_ktx: String = "1.2.0"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
 
     const val constraintlayout: String = "1.1.3"
 
-    const val lint_gradle: String = "26.5.1" // available: "26.5.3"
+    const val activity_ktx: String = "1.1.0"
+
+    const val fragment_ktx: String = "1.2.2"
+
+    const val recyclerview: String = "1.1.0"
+
+    const val lint_gradle: String = "26.5.3"
 
     const val appcompat: String = "1.1.0"
 
-    const val core_ktx: String = "1.1.0" // available: "1.2.0"
-
-    const val material: String = "1.1.0-beta01" // available: "1.1.0"
+    const val material: String = "1.1.0"
 
     const val timberkt: String = "1.5.1"
 
-    const val aapt2: String = "3.5.1-5435860" // available: "3.5.3-5435860"
+    const val aapt2: String = "3.5.3-5435860"
 
     /**
      * Current version: "5.4.1"
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */
-    const val gradleLatestVersion: String = "6.1.1"
+    const val gradleLatestVersion: String = "6.2"
 }
 
 /**

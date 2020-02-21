@@ -7,9 +7,9 @@ buildscript {
     }
 
     dependencies {
-        classpath(RootPlugins.androidGradle)
-        classpath(RootPlugins.kotlinGradle)
-        classpath(RootPlugins.navigationSafeArgs)
+        classpath(Libs.com_android_tools_build_gradle)
+        classpath(Libs.kotlin_gradle_plugin)
+        classpath(Libs.navigation_safe_args_gradle_plugin)
     }
 }
 

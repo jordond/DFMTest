@@ -31,7 +31,7 @@ dependencies {
     implementation(project(Modules.audioBase))
     implementation(project(Modules.common))
 
-    implementation(Libs.kotlin)
+    implementation(Libs.kotlin_stdlib_jdk7)
 
     implementation(Libs.timberkt)
 }

@@ -29,7 +29,7 @@ data class AudioListItem(
             i { "Binding ${audioOption.label} at #$position" }
             if (odd(position)) root.setBackgroundColor(context.color(RCommon.color.grey))
 
-            txtLabel.text = context.getString(audioOption.label)
+            txtLabel.setText(audioOption.label)
 
             imgAction.visibleOrGone = audioOption.rawRes != null
             imgAction.setOnClickListener { onMediaToggle(audioOption) }
@@ -41,6 +41,7 @@ data class AudioListItem(
 
     override fun getId(): Long = audioOption.hashCode().toLong()
 
-    override fun isSameAs(other: com.xwray.groupie.Item<*>?): Boolean =
-        other?.cast<AudioListItem>()?.audioOption == audioOption
+    override fun isSameAs(other: com.xwray.groupie.Item<*>): Boolean {
+        return other.cast<AudioListItem>()?.audioOption == audioOption
+    }
 }

@@ -31,7 +31,9 @@ dependencies {
     implementation(project(Modules.audioBase))
     implementation(project(Modules.common))
 
-    implementation(Libs.kotlin)
+    implementation(Libs.kotlin_stdlib_jdk7)
+    implementation(Libs.kotlinx_coroutines_core)
+    implementation(Libs.kotlinx_coroutines_android)
 
     implementation(Libs.timberkt)
 }
