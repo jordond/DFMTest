@@ -6,7 +6,7 @@ import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder
 import com.worldturtlemedia.dfmtest.common.ktx.onClick
 import com.worldturtlemedia.dfmtest.common.ktx.startActivity
 import com.worldturtlemedia.dfmtest.databinding.FragmentMainMenuBinding
-import com.worldturtlemedia.photos.GooglePhotosActivity
+import com.worldturtlemedia.photos.ui.GooglePhotosActivity
 
 class MainMenuFragment : BindingFragment<FragmentMainMenuBinding>() {
 

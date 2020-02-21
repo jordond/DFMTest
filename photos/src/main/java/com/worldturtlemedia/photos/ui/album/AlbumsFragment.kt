@@ -1,4 +1,4 @@
-package com.worldturtlemedia.photos.album
+package com.worldturtlemedia.photos.ui.album
 
 import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingFragment
 import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder

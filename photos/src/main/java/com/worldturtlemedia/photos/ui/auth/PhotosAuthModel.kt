@@ -1,4 +1,4 @@
-package com.worldturtlemedia.photos.auth
+package com.worldturtlemedia.photos.ui.auth
 
 import com.worldturtlemedia.dfmtest.common.base.viewmodel.State
 import com.worldturtlemedia.dfmtest.common.base.viewmodel.StateViewModel

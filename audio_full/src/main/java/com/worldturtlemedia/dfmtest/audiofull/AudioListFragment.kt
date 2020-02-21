@@ -42,7 +42,7 @@ class AudioListFragment : BaseFragment() {
         createInitialListItems()
     }
 
-    override fun subscribeViewModel() {
+    override fun observeViewModel() {
         viewModel.state.observe(owner) { state ->
             when(state.status) {
                 is PlayerState.Playing -> refreshList(state.selected)

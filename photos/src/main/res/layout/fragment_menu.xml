@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.worldturtlemedia.photos.auth.AuthenticatedGoogleUserView
+    <com.worldturtlemedia.photos.ui.auth.AuthenticatedGoogleUserView
         android:id="@+id/authUserView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

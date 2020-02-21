@@ -38,7 +38,7 @@ class AudioPickerFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun subscribeViewModel() {
+    override fun observeViewModel() {
         selectedAudioModel.selectedOption.observe(owner) { selected ->
             txtSelected.text = "Selected:\n${getString(selected.label)} - res: ${selected.rawRes}"
         }

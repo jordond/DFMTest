@@ -1,4 +1,4 @@
-package com.worldturtlemedia.photos.date
+package com.worldturtlemedia.photos.ui.date
 
 import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingFragment
 import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder

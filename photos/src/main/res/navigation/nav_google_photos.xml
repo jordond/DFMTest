@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.worldturtlemedia.photos.menu.MenuFragment"
+        android:name="com.worldturtlemedia.photos.ui.menu.MenuFragment"
         android:label="Google Photos"
         tools:layout="@layout/fragment_menu">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/albumsFragment"
-        android:name="com.worldturtlemedia.photos.album.AlbumsFragment"
+        android:name="com.worldturtlemedia.photos.ui.album.AlbumsFragment"
         android:label="Albums"
         tools:layout="@layout/fragment_albums">
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/datePickerFragment"
-        android:name="com.worldturtlemedia.photos.date.DatePickerFragment"
+        android:name="com.worldturtlemedia.photos.ui.date.DatePickerFragment"
         android:label="Date Picker"
         tools:layout="@layout/fragment_date_picker">
         <action
@@ -53,12 +53,12 @@
     </fragment>
     <fragment
         android:id="@+id/albumSelectionListFragment"
-        android:name="com.worldturtlemedia.photos.album.AlbumSelectionListFragment"
+        android:name="com.worldturtlemedia.photos.ui.album.AlbumSelectionListFragment"
         android:label="Selected Album"
         tools:layout="@layout/fragment_albums_selection_list" />
     <fragment
         android:id="@+id/dateSelectionListFragment"
-        android:name="com.worldturtlemedia.photos.date.DateSelectionListFragment"
+        android:name="com.worldturtlemedia.photos.ui.date.DateSelectionListFragment"
         android:label="Selected Date(s)"
         tools:layout="@layout/fragment_date_selection_list" />
 </navigation>

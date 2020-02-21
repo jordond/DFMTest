@@ -20,6 +20,15 @@ android {
         versionName App.name
     }
 
+    signingConfigs {
+        release {
+            storeFile file("/home/jordon/dev/dfmtest.jks")
+            keyAlias "key"
+            storePassword "Password1"
+            keyPassword "Password1"
+        }
+    }
+
     buildTypes {
          release {
             minifyEnabled = false

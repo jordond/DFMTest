@@ -1,10 +1,9 @@
-package com.worldturtlemedia.photos.auth
+package com.worldturtlemedia.photos.ui.auth
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.button.MaterialButton

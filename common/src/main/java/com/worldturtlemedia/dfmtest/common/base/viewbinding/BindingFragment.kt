@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.worldturtlemedia.dfmtest.common.base.BaseFragment
 
-abstract class BindingFragment<T : ViewBinding> : Fragment() {
+abstract class BindingFragment<T : ViewBinding> : BaseFragment() {
+
+    override fun layout(): Int {
+        throw IllegalStateException("Should never be called!")
+    }
 
     protected lateinit var binding: T
 
@@ -17,19 +22,8 @@ abstract class BindingFragment<T : ViewBinding> : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = bindingInflater(inflater)
         return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        setupViews()
-        observeViewModel()
-    }
-
-    protected open fun setupViews() {}
-
-    protected open fun observeViewModel() {}
 }

@@ -28,12 +28,12 @@ abstract class BaseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupViews()
-        subscribeViewModel()
+        observeViewModel()
     }
 
     protected open fun setupViews() {}
 
-    protected open fun subscribeViewModel() {}
+    protected open fun observeViewModel() {}
 }
 
 fun Fragment.navigate(directions: NavDirections) {

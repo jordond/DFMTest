@@ -42,7 +42,7 @@ class AudioPlayerFragment : BaseFragment() {
         }
     }
 
-    override fun subscribeViewModel() {
+    override fun observeViewModel() {
         viewModel.state.observe(owner) { state ->
             i { "Received state: $state" }
 

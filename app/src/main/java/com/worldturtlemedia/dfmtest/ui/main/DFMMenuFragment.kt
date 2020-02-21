@@ -81,7 +81,7 @@ class DFMMenuFragment : BaseFragment() {
         txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, getString(R.string.none))
     }
 
-    override fun subscribeViewModel() {
+    override fun observeViewModel() {
         featureManagerModel.manager.installedFeatures.observe(owner) { features ->
             val string = if (features.isEmpty()) getString(R.string.none) else features.display
             txtLoadedFeaturesLabel.text = getString(R.string.loaded_features, string)

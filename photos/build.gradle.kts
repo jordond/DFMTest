@@ -49,10 +49,10 @@ dependencies {
     implementation(Libs.material)
     implementation(Libs.groupie)
     implementation(Libs.groupie_kotlin_android_extensions)
+
     implementation("io.coil-kt:coil:0.9.5")
     implementation("com.github.florent37:inline-activity-result-kotlin:1.0.3")
     implementation("com.mikhaellopez:circularimageview:4.2.0")
-
     implementation(Libs.google_photos_library_client)
     implementation(Libs.play_services_auth)
 
