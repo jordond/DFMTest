@@ -13,10 +13,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingFragment
 import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder
-import com.worldturtlemedia.dfmtest.common.ktx.observe
-import com.worldturtlemedia.dfmtest.common.ktx.onClick
-import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
+import com.worldturtlemedia.dfmtest.common.ktx.*
 import com.worldturtlemedia.photos.databinding.FragmentMenuBinding
+import com.worldturtlemedia.photos.ui.auth.GoogleAuthUser
 import com.worldturtlemedia.photos.ui.auth.PhotosAuthModel
 import kotlinx.coroutines.launch
 
@@ -26,7 +25,17 @@ class MenuFragment : BindingFragment<FragmentMenuBinding>() {
 
     private val authViewModel: PhotosAuthModel by activityViewModels()
 
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestEmail()
+        .requestProfile()
+        .requestScopes(Scope("https://www.googleapis.com/auth/photoslibrary.readonly"))
+        .requestServerAuthCode("421255191555-32svvvtis87a7k099j61okpbshla8tni.apps.googleusercontent.com")
+        .build()
+
+    val client by lazy { GoogleSignIn.getClient(requireActivity(), gso) }
+
     override fun setupViews() {
+
         binding.btnSignIn.onClick {
             lifecycleScope.launch {
                 try {
@@ -36,6 +45,10 @@ class MenuFragment : BindingFragment<FragmentMenuBinding>() {
                     throw error
                 }
             }
+        }
+
+        binding.authUserView.setOnDisconnect {
+            client.signOut()
         }
     }
 
@@ -49,34 +62,26 @@ class MenuFragment : BindingFragment<FragmentMenuBinding>() {
     }
 
     suspend fun test() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestProfile()
-            .requestScopes(Scope("https://www.googleapis.com/auth/photoslibrary.readonly"))
-            .requestServerAuthCode("421255191555-32svvvtis87a7k099j61okpbshla8tni.apps.googleusercontent.com")
-            .build()
 
-        val client = GoogleSignIn.getClient(requireActivity(), gso)
         val intent = client.signInIntent
-        startActivityForResult(intent, 42)
-//        val resultData = startForResult(intent).data
-//        val resultTask = GoogleSignIn.getSignedInAccountFromIntent(resultData)
-//        if (resultTask.isSuccessful) {
-//            val account: GoogleSignInAccount = resultTask.result!!
-//            e { "account: $account" }
-//        } else {
-//            e(resultTask.exception) { "FAILED" }
-//        }
-    }
+        val testtt = GoogleSignIn.getLastSignedInAccount(requireActivity())
+        if ( testtt != null) {
+            e { "Do nothing: ${testtt.email}" }
+            client.signOut()
+            return
+        }
+        val resultData = startForResult(intent).data
+        val resultTask = GoogleSignIn.getSignedInAccountFromIntent(resultData)
+        if (resultTask.isSuccessful) {
+            val account: GoogleSignInAccount = resultTask.result!!
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+            binding.groupNoAuth.gone = true
+            binding.groupAuth.visible = true
+            binding.authUserView.updateInfo(GoogleAuthUser(account.email!!, account.photoUrl))
 
-        if (requestCode == 42) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            val account = task?.getResult(ApiException::class.java)
-            val exception = task?.exception
-            e { "$account" }
+            e { "account: $account" }
+        } else {
+            e(resultTask.exception) { "FAILED" }
         }
     }
 }

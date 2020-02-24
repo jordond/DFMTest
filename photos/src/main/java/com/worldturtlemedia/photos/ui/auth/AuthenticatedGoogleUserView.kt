@@ -1,16 +1,14 @@
 package com.worldturtlemedia.photos.ui.auth
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import androidx.appcompat.widget.AppCompatTextView
 import coil.api.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.button.MaterialButton
-import com.mikhaellopez.circularimageview.CircularImageView
-import com.worldturtlemedia.dfmtest.common.ktx.bind
 import com.worldturtlemedia.dfmtest.common.ktx.onClick
 import com.worldturtlemedia.photos.R
+import kotlinx.android.synthetic.main.view_authenticated_google_user.view.*
 
 class AuthenticatedGoogleUserView @JvmOverloads constructor(
     context: Context,
@@ -21,10 +19,6 @@ class AuthenticatedGoogleUserView @JvmOverloads constructor(
     init {
         inflate(context, R.layout.view_authenticated_google_user, this)
     }
-
-    private val txtAuthEmail: AppCompatTextView by bind(R.id.txtAuthEmail)
-    private val btnDisconnect: MaterialButton by bind(R.id.btnDisconnect)
-    private val imgAvatar: CircularImageView by bind(R.id.imgAvatar)
 
     private var onDisconnectClickListener: () -> Unit = {}
 
@@ -49,5 +43,5 @@ class AuthenticatedGoogleUserView @JvmOverloads constructor(
 
 data class GoogleAuthUser(
     val email: String,
-    val avatarUrl: String
+    val avatarUrl: Uri?
 )
