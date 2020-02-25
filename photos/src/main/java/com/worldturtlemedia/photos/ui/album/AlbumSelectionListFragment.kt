@@ -1,11 +1,11 @@
 package com.worldturtlemedia.photos.ui.album
 
-import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingFragment
-import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.BasicFragment
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.viewBinding
+import com.worldturtlemedia.photos.R
 import com.worldturtlemedia.photos.databinding.FragmentAlbumsSelectionListBinding
 
-class AlbumSelectionListFragment : BindingFragment<FragmentAlbumsSelectionListBinding>() {
+class AlbumSelectionListFragment : BasicFragment(R.layout.fragment_albums_selection_list) {
 
-    override val bindingInflater = binder { FragmentAlbumsSelectionListBinding.inflate(it) }
-
+    private val binding by viewBinding(FragmentAlbumsSelectionListBinding::bind)
 }

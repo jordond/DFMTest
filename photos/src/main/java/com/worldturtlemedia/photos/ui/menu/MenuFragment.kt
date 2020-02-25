@@ -1,27 +1,29 @@
 package com.worldturtlemedia.photos.ui.menu
 
-import android.content.Intent
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import com.github.ajalt.timberkt.e
-import com.github.ajalt.timberkt.i
 import com.github.florent37.inlineactivityresult.kotlin.coroutines.startForResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
-import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingFragment
-import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder
-import com.worldturtlemedia.dfmtest.common.ktx.*
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.BasicFragment
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.viewBinding
+import com.worldturtlemedia.dfmtest.common.ktx.gone
+import com.worldturtlemedia.dfmtest.common.ktx.onClick
+import com.worldturtlemedia.dfmtest.common.ktx.visible
+import com.worldturtlemedia.dfmtest.common.ktx.visibleOrGone
+import com.worldturtlemedia.photos.R
 import com.worldturtlemedia.photos.databinding.FragmentMenuBinding
 import com.worldturtlemedia.photos.ui.auth.GoogleAuthUser
 import com.worldturtlemedia.photos.ui.auth.PhotosAuthModel
 import kotlinx.coroutines.launch
 
-class MenuFragment : BindingFragment<FragmentMenuBinding>() {
+class MenuFragment : BasicFragment(R.layout.fragment_menu) {
 
-    override val bindingInflater = binder { FragmentMenuBinding.inflate(it) }
+    private val binding by viewBinding(FragmentMenuBinding::bind)
 
     private val authViewModel: PhotosAuthModel by activityViewModels()
 
@@ -65,7 +67,7 @@ class MenuFragment : BindingFragment<FragmentMenuBinding>() {
 
         val intent = client.signInIntent
         val testtt = GoogleSignIn.getLastSignedInAccount(requireActivity())
-        if ( testtt != null) {
+        if (testtt != null) {
             e { "Do nothing: ${testtt.email}" }
             client.signOut()
             return

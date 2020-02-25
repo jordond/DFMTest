@@ -7,14 +7,11 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BindingActivity<T : ViewBinding> : AppCompatActivity() {
 
-    protected lateinit var binding: T
+    protected abstract val binding: T
 
-    protected abstract val bindingInflater: BindingInflater<T>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-
-        binding = bindingInflater(layoutInflater)
         setContentView(binding.root)
 
         setupViews()

@@ -1,11 +1,12 @@
 package com.worldturtlemedia.photos.ui.date
 
-import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingFragment
-import com.worldturtlemedia.dfmtest.common.base.viewbinding.binder
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.BasicFragment
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.viewBinding
+import com.worldturtlemedia.photos.R
+import com.worldturtlemedia.photos.databinding.FragmentAlbumsSelectionListBinding
 import com.worldturtlemedia.photos.databinding.FragmentDatePickerBinding
 
-class DatePickerFragment : BindingFragment<FragmentDatePickerBinding>() {
+class DatePickerFragment : BasicFragment(R.layout.fragment_date_picker) {
 
-    override val bindingInflater = binder { FragmentDatePickerBinding.inflate(it) }
-
+    private val binding by viewBinding(FragmentDatePickerBinding::bind)
 }

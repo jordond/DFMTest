@@ -56,6 +56,7 @@ dependencies {
     implementation(Libs.lifecycle_livedata_ktx)
     implementation(Libs.lifecycle_viewmodel_ktx)
     implementation(Libs.lifecycle_viewmodel_savedstate)
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
     implementation(Libs.recyclerview)
     implementation(Libs.activity_ktx)
     implementation(Libs.fragment_ktx)

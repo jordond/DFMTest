@@ -24,7 +24,7 @@ object Versions {
 
     const val com_google_android_play_core_ktx: String = "1.6.5"
 
-    const val com_android_tools_build_gradle: String = "3.6.0-rc03"
+    const val com_android_tools_build_gradle: String = "3.6.0"
 
     const val androidx_core_core_ktx: String = "1.2.0"
 
@@ -42,9 +42,9 @@ object Versions {
 
     const val recyclerview: String = "1.1.0"
 
-    const val lint_gradle: String = "26.6.0-rc03"
+    const val lint_gradle: String = "26.6.0"
 
-    const val viewbinding: String = "3.6.0-rc03"
+    const val viewbinding: String = "3.6.0"
 
     const val appcompat: String = "1.1.0"
 

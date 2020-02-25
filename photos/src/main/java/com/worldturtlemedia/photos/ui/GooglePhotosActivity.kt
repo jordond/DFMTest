@@ -1,11 +1,12 @@
 package com.worldturtlemedia.photos.ui
 
-import com.worldturtlemedia.dfmtest.common.base.BaseActivity
-import com.worldturtlemedia.photos.R
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.BindingActivity
+import com.worldturtlemedia.dfmtest.common.base.viewbinding.viewBinding
+import com.worldturtlemedia.photos.databinding.ActivityGooglePhotosBinding
+import com.worldturtlemedia.photos.databinding.ActivityGooglePhotosBinding.inflate
 
-class GooglePhotosActivity : BaseActivity() {
+class GooglePhotosActivity : BindingActivity<ActivityGooglePhotosBinding>() {
 
-    override fun layout(): Int =
-        R.layout.activity_google_photos
+    override val binding: ActivityGooglePhotosBinding by viewBinding { inflate(it) }
 
 }
