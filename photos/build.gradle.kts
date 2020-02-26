@@ -4,6 +4,7 @@ plugins {
     id(BuildPlugins.library)
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinAndroidExtensions)
+    id(BuildPlugins.kotlinSafeArgs)
 }
 
 android {
@@ -12,6 +13,12 @@ android {
     defaultConfig {
         minSdkVersion(App.minSdk)
         targetSdkVersion(App.targetSdk)
+
+        buildConfigField(
+            "String",
+            "GOOGLE_API_AUTH_CODE",
+            "\"421255191555-32svvvtis87a7k099j61okpbshla8tni.apps.googleusercontent.com\""
+        )
     }
 
     compileOptions {

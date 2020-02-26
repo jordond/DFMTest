@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 
-abstract class BasicFragment(
+abstract class LayoutFragment(
     @LayoutRes val layoutRes: Int
 ) : Fragment(layoutRes) {
 

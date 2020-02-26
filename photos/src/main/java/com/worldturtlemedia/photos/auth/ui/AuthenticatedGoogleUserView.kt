@@ -1,4 +1,4 @@
-package com.worldturtlemedia.photos.ui.auth
+package com.worldturtlemedia.photos.auth.ui
 
 import android.content.Context
 import android.net.Uri
@@ -27,7 +27,12 @@ class AuthenticatedGoogleUserView @JvmOverloads constructor(
         btnDisconnect.onClick { onDisconnectClickListener() }
     }
 
-    fun updateInfo(info: GoogleAuthUser) = with(info) {
+    fun updateInfo(
+        email: String,
+        avatarUrl: Uri?
+    ) = updateInfo(AuthenticatedGoogleUserState(email, avatarUrl))
+
+    fun updateInfo(info: AuthenticatedGoogleUserState) = with(info) {
         txtAuthEmail.text = context.getString(R.string.google_auth_email_display, email)
         imgAvatar.load(avatarUrl) {
             crossfade(true)
@@ -41,7 +46,7 @@ class AuthenticatedGoogleUserView @JvmOverloads constructor(
     }
 }
 
-data class GoogleAuthUser(
+data class AuthenticatedGoogleUserState(
     val email: String,
     val avatarUrl: Uri?
 )

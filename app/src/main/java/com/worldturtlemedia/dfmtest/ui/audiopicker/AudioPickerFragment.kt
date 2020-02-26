@@ -5,7 +5,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.play.core.splitinstall.SplitInstallException
 import com.worldturtlemedia.dfmtest.R
 import com.worldturtlemedia.dfmtest.audiobase.selection.SelectedAudioOptionModel
 import com.worldturtlemedia.dfmtest.common.base.BaseFragment

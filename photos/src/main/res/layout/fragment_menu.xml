@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.worldturtlemedia.photos.ui.auth.AuthenticatedGoogleUserView
+    <com.worldturtlemedia.photos.auth.ui.AuthenticatedGoogleUserView
         android:id="@+id/authUserView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,5 +96,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="txtSelectAnOption,btnDate,btnAlbums,authUserView" />
+
+    <TextView
+        android:id="@+id/txtAuthError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

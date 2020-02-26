@@ -6,7 +6,7 @@
 
     <application>
         <activity
-            android:name=".ui.GooglePhotosActivity"
+            android:name=".GooglePhotosActivity"
             android:exported="true"
             android:label="@string/title_activity_google_photos"
             android:theme="@style/AppTheme.NoActionBar" />
